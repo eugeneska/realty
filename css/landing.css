@@ -194,6 +194,13 @@ button:focus-visible {
   font-size: 13px;
 }
 
+@media (min-width: 981px) {
+  .nav {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
 .nav a {
   position: relative;
   color: rgba(255, 255, 255, 0.86);
@@ -232,7 +239,7 @@ button:focus-visible {
   align-items: center;
   gap: var(--space-lg);
   flex: 1;
-  justify-content: flex-end;
+  min-width: 0;
 }
 
 .menu-toggle {
