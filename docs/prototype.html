@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>РИАЛИТИ — UX-прототип лендинга</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+      color: #111;
+      background: #fff;
+    }
+    a { color: inherit; }
+    button, .btn {
+      display: inline-block;
+      border: 1px solid #111;
+      background: #111;
+      color: #fff;
+      padding: 12px 18px;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-ghost {
+      background: #fff;
+      color: #111;
+    }
+    input, select {
+      width: 100%;
+      font: inherit;
+      padding: 10px 12px;
+      border: 1px solid #999;
+      background: #fff;
+    }
+    label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; }
+    .field { margin-bottom: 14px; }
+    .gets { margin: 16px 0 18px; padding: 0; list-style: none; }
+    .gets li { padding: 6px 0 6px 18px; position: relative; }
+    .gets li:before { content: "—"; position: absolute; left: 0; color: #555; }
+    .lead {
+      margin-top: 28px;
+      border: 1px solid #111;
+      padding: 24px;
+      background: #fafafa;
+    }
+    .lead-note { font-size: 13px; color: #555; margin-top: 12px; }
+    .quiz-progress { margin: 16px 0 12px; }
+    .quiz-progress span { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+    .bar { height: 8px; background: #ddd; }
+    .bar i { display: block; height: 8px; background: #111; width: 20%; }
+    .quiz-step { display: none; }
+    .quiz-step.is-on { display: block; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .opts button {
+      background: #fff;
+      color: #111;
+      border: 1px solid #999;
+    }
+    .opts button.is-on { background: #111; color: #fff; border-color: #111; }
+    .quiz-select { max-width: 520px; margin: 12px 0 16px; }
+    .ratings { display: flex; gap: 24px; flex-wrap: wrap; margin: 12px 0 20px; }
+    .rating { border: 1px solid #ccc; padding: 12px 16px; }
+    .rating b { display: block; font-size: 22px; }
+    .checklist {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #ddd;
+      color: #555;
+      font-size: 14px;
+    }
+    .checklist a { color: #555; }
+    .tags { font-size: 13px; color: #555; margin: 12px 0 16px; }
+    .case-cat { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+    .reviews {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      margin: 16px 0 12px;
+    }
+    .review {
+      border: 1px solid #ccc;
+      padding: 12px;
+      min-width: 230px;
+      flex: 1;
+    }
+    .review .ph { min-height: 56px; margin-bottom: 8px; }
+    .process-line {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border-top: 2px solid #111;
+    }
+    .process-step { padding: 14px 10px 0 0; }
+    .process-step b { display: block; margin-bottom: 4px; }
+    .process-step span { font-size: 13px; color: #555; }
+    .trust-live {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .trust-live .ph { min-height: 280px; }
+    .trust-facts { display: grid; gap: 10px; }
+    .trust-facts div { border: 1px solid #ccc; padding: 12px; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .section { padding: 56px 0; border-top: 1px solid #ccc; }
+    .kicker { font-size: 13px; color: #555; margin-bottom: 8px; }
+    h1, h2, h3 { font-weight: 600; line-height: 1.25; }
+    h1 { font-size: 32px; margin-bottom: 16px; }
+    h2 { font-size: 26px; margin-bottom: 16px; }
+    h3 { font-size: 18px; margin-bottom: 8px; }
+    p { margin-bottom: 12px; }
+    .muted { color: #555; }
+    .small { font-size: 13px; color: #555; }
+    .note { font-size: 13px; color: #555; font-style: italic; }
+    .ph {
+      background: #e8e8e8;
+      border: 1px dashed #999;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      min-height: 80px;
+    }
+    header {
+      border-bottom: 1px solid #ccc;
+      padding: 14px 0;
+    }
+    header .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo { font-weight: 700; }
+    nav { display: flex; gap: 16px; font-size: 14px; flex-wrap: wrap; }
+    .hero { padding: 48px 0; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .stat {
+      border: 1px solid #ccc;
+      padding: 12px;
+    }
+    .stat b { display: block; font-size: 22px; }
+    .hero-visual { display: grid; gap: 10px; }
+    .hero-visual .ph { min-height: 220px; }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid #111;
+    }
+    .col { padding: 20px; }
+    .col + .col { border-left: 1px solid #111; }
+    .col-usual { background: #f3f3f3; }
+    .col-ex { background: #fff; }
+    .col-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .row-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .row-item:last-child { border-bottom: 0; }
+    .compare-foot {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .both-ways {
+      margin-top: 24px;
+      border: 1px solid #111;
+      padding: 20px;
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .timeline {
+      margin: 20px 0 24px;
+      border: 1px solid #ccc;
+      padding: 20px;
+    }
+    .timeline-line {
+      position: relative;
+      height: 8px;
+      background: #ddd;
+      margin: 28px 0 36px;
+    }
+    .timeline-line i {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18%;
+      height: 8px;
+      background: #111;
+    }
+    .timeline-marks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #555;
+    }
+    .timeline-mark {
+      border: 1px solid #111;
+      padding: 10px 12px;
+      background: #fff;
+      max-width: 280px;
+      margin-top: -8px;
+    }
+    .scheme {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid #ccc;
+      padding: 20px;
+    }
+    .scheme-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border: 2px solid #111;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      z-index: 2;
+    }
+    .channel {
+      position: absolute;
+      width: 210px;
+      border: 1px solid #999;
+      background: #f7f7f7;
+      padding: 10px 12px;
+    }
+    .channel b { display: block; margin-bottom: 4px; }
+    .channel p { margin: 0; font-size: 13px; color: #444; }
+    .c1 { top: 16px; left: 50%; transform: translateX(-50%); }
+    .c2 { top: 80px; left: 16px; }
+    .c3 { top: 80px; right: 16px; }
+    .c4 { bottom: 80px; left: 16px; }
+    .c5 { bottom: 80px; right: 16px; }
+    .c6 { bottom: 16px; left: 50%; transform: translateX(-50%); }
+    .manage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .manage div { border: 1px solid #111; padding: 14px; background: #fafafa; }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 20px;
+    }
+    .modal[hidden] { display: none; }
+    .modal-box {
+      background: #fff;
+      border: 1px solid #111;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+    }
+    .cases {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .case {
+      border: 1px solid #111;
+      display: flex;
+      flex-direction: column;
+    }
+    .case .ph { min-height: 160px; }
+    .case-body { padding: 16px; flex: 1; }
+    .case-num { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .step { border: 1px solid #ccc; padding: 14px; }
+    .step-n { font-size: 13px; color: #555; margin-bottom: 6px; }
+    .trust {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .trust-item { border: 1px solid #ccc; padding: 14px; }
+    .see { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 24px; }
+    .see div { border: 1px solid #ccc; padding: 12px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    details { border-bottom: 1px solid #ccc; padding: 12px 0; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { margin: 10px 0 0; }
+    footer {
+      border-top: 1px solid #111;
+      background: #f3f3f3;
+      padding: 40px 0 88px;
+      font-size: 14px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 32px;
+    }
+    .footer-col h3 { font-size: 14px; margin-bottom: 12px; }
+    .footer-col a, .footer-col p { display: block; margin-bottom: 8px; color: #333; }
+    .footer-bottom {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid #ccc;
+      color: #555;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .phone-fixed {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: #111;
+      color: #fff;
+      border: 1px solid #111;
+      padding: 12px 16px;
+      text-decoration: none;
+      min-width: 180px;
+    }
+    .phone-fixed span { font-size: 12px; color: #ccc; }
+    .phone-fixed b { font-size: 16px; }
+    @media (max-width: 860px) {
+      .hero-grid, .compare, .cases, .steps, .trust, .form-grid, .see, .footer-grid, .ratings, .process-line, .trust-live, .manage {
+        grid-template-columns: 1fr;
+      }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .col + .col { border-left: 0; border-top: 1px solid #111; }
+      .scheme { min-height: auto; }
+      .scheme-center, .channel { position: static; transform: none; width: auto; height: auto; margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="logo">РИАЛИТИ</div>
+      <nav>
+        <a href="#why">Почему эксклюзив</a>
+        <a href="#promo">Как продвигаем</a>
+        <a href="#cases">Сделки</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#form">Оценка</a>
+      </nav>
+      <a class="btn" href="#form">Узнать стоимость и срок</a>
+    </div>
+  </header>
+
+  <!-- 01 HERO -->
+  <section class="hero" id="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Эксклюзивная продажа квартир в Бресте</p>
+        <h1>Продайте квартиру в Бресте на 30% быстрее, сохранив максимум от её стоимости</h1>
+        <p>Берём квартиру в персональную работу и активно ищем покупателя, вместо того чтобы просто разместить объявление и ждать звонков.</p>
+        <p class="tags">Фото и видео · Realt · Kufar · реклама · база покупателей</p>
+        <div class="hero-actions">
+          <a class="btn" href="#form">Узнать стоимость и срок продажи</a>
+          <a class="btn btn-ghost" href="#discount">Получить −10% на услуги</a>
+        </div>
+        <p class="small" style="margin-top:10px;">Бесплатная оценка · Оплата только после сделки · Скидка −10%, если квартира продаётся в первый месяц</p>
+      </div>
+      <div class="hero-visual">
+        <div class="ph">Визуал: реальный риэлтер РИАЛИТИ + квартира</div>
+        <div class="ph" style="min-height:90px;">Карточка реальной сделки<br>объект · срок · результат</div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><b>30%</b> быстрее обычного договора</div>
+        <div class="stat"><b>Оплата только после сделки</b> без оплаты заранее</div>
+        <div class="stat"><b>20 лет</b> опыта в недвижимости</div>
+        <div class="stat"><b>−10%</b> на услуги, если квартира продана в первый месяц</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 WHY EXCLUSIVE -->
+  <section class="section" id="why">
+    <div class="wrap">
+      <p class="kicker">Почему эксклюзив</p>
+      <h2>Пять риэлтеров не означают в пять раз больше шансов продать</h2>
+      <p class="muted">Когда одну квартиру продают сразу несколько агентств, никто не уверен, что именно он завершит сделку. Поэтому ответственность и вложения в объект размываются.</p>
+
+      <div class="compare">
+        <div class="col col-usual">
+          <div class="col-title">Обычный договор</div>
+          <div class="row-item">Несколько риэлтеров</div>
+          <div class="row-item">Стандартное объявление</div>
+          <div class="row-item">Нет единой стратегии</div>
+          <div class="row-item">Ждём звонков</div>
+        </div>
+        <div class="col col-ex">
+          <div class="col-title">Эксклюзив РИАЛИТИ</div>
+          <div class="row-item">Один ответственный</div>
+          <div class="row-item">Фото + видео + реклама</div>
+          <div class="row-item">Единое позиционирование</div>
+          <div class="row-item">Активно ищем покупателя</div>
+        </div>
+      </div>
+      <p class="compare-foot">Один объект. Одна стратегия. Один ответственный риэлтер.</p>
+      <div class="both-ways" id="discount">
+        <h3>Эксклюзив работает в обе стороны</h3>
+        <p>Вы доверяете РИАЛИТИ продажу квартиры на период договора, а РИАЛИТИ берёт на себя персональную ответственность за её продвижение.</p>
+        <p><b>Если квартира продаётся уже в первый месяц — вы получаете скидку 10% на услуги агентства.</b></p>
+        <p class="note">Перед публикацией: зафиксировать в договоре, от какой суммы услуги считаются эти 10%.</p>
+      </div>
+
+      <div class="lead" id="quiz">
+        <p class="kicker">Расчёт стоимости и срока</p>
+        <h2>Узнайте стоимость квартиры и реальный срок её продажи</h2>
+        <p>Ответьте на 5 вопросов — риэлтер РИАЛИТИ сравнит объект с похожими предложениями и подготовит предварительную оценку.</p>
+        <p class="note">Неправильная стартовая цена может затянуть продажу и усилить торг покупателей.</p>
+        <p class="small">5 вопросов → Ваш результат</p>
+        <div class="quiz-progress">
+          <span id="quiz-step-label">Шаг 1 из 5</span>
+          <div class="bar"><i id="quiz-bar"></i></div>
+        </div>
+        <form id="quiz-form" action="#" method="get">
+          <input type="hidden" name="rooms" id="q-rooms">
+          <input type="hidden" name="area" id="q-area">
+          <input type="hidden" name="condition" id="q-condition">
+          <input type="hidden" name="when" id="q-when">
+          <div class="quiz-step is-on" data-step="1">
+            <h3>В каком районе квартира?</h3>
+            <select class="quiz-select" id="quiz-district" name="district">
+              <option value="">Выберите микрорайон</option>
+              <option value="Центр">Центр</option>
+              <option value="Восток">Восток</option>
+              <option value="Ковалево">Ковалево</option>
+              <option value="Речица">Речица</option>
+              <option value="Дубровка">Дубровка</option>
+              <option value="Граевка">Граевка</option>
+              <option value="Вулька">Вулька</option>
+              <option value="Катин Бор">Катин Бор</option>
+              <option value="Березовка">Березовка</option>
+              <option value="Задворцы">Задворцы</option>
+              <option value="Плоска">Плоска</option>
+              <option value="Киевка">Киевка</option>
+              <option value="Другой район">Другой район</option>
+            </select>
+          </div>
+          <div class="quiz-step" data-step="2">
+            <h3>Сколько комнат?</h3>
+            <div class="opts">
+              <button type="button" data-field="q-rooms" data-value="1">1</button>
+              <button type="button" data-field="q-rooms" data-value="2">2</button>
+              <button type="button" data-field="q-rooms" data-value="3">3</button>
+              <button type="button" data-field="q-rooms" data-value="4+">4+</button>
+            </div>
+          </div>
+          <div class="quiz-step" data-step="3">
+            <h3>Какая площадь?</h3>
+            <div class="opts">
+              <button type="button" data-field="q-area" data-value="до 50">до 50 м²</button>
+              <button type="button" data-field="q-area" data-value="50–70">50–70 м²</button>
+              <button type="button" data-field="q-area" data-value="70–90">70–90 м²</button>
+              <button type="button" data-field="q-area" data-value="90+">90+ м²</button>
+            </div>
+          </div>
+          <div class="quiz-step" data-step="4">
+            <h3>Какое состояние?</h3>
+            <div class="opts">
+              <button type="button" data-field="q-condition" data-value="ремонт">Требует ремонта</button>
+              <button type="button" data-field="q-condition" data-value="жилое">Жилое</button>
+              <button type="button" data-field="q-condition" data-value="евроремонт">Евроремонт</button>
+            </div>
+          </div>
+          <div class="quiz-step" data-step="5">
+            <h3>Когда хотите продать?</h3>
+            <div class="opts">
+              <button type="button" data-field="q-when" data-value="срочно">Как можно скорее</button>
+              <button type="button" data-field="q-when" data-value="1–3 месяца">1–3 месяца</button>
+              <button type="button" data-field="q-when" data-value="не тороплю">Не тороплю</button>
+              <button type="button" data-field="q-when" data-value="уже продаю" data-review="1">Уже продаю, но нет результата</button>
+            </div>
+          </div>
+          <div class="quiz-step" data-step="6">
+            <h3 id="quiz-result-title">Куда отправить расчёт?</h3>
+            <p class="small" id="quiz-result-text">Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи.</p>
+            <div class="field">
+              <label for="quiz-name">Имя</label>
+              <input id="quiz-name" name="name" placeholder="Как к вам обращаться?">
+            </div>
+            <div class="field">
+              <label for="quiz-phone">Телефон</label>
+              <input id="quiz-phone" name="phone" placeholder="Куда отправить результат?">
+            </div>
+            <button type="button">Рассчитать стоимость и срок продажи</button>
+          </div>
+        </form>
+        <p class="lead-note">Если уже продаёте и нет результата, консультация сразу станет разбором цены, подачи и продвижения.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 PROMO SCHEME -->
+  <section class="section" id="promo">
+    <div class="wrap">
+      <p class="kicker">Как мы продвигаем квартиру</p>
+      <h2>Не просто размещаем. Создаём отдельную рекламную кампанию</h2>
+
+      <p class="note">Для дизайна: не сетка из одинаковых карточек. В центре реальная квартира. Вокруг только каналы привлечения. Риэлтер и отчётность — отдельно, как управление продажей.</p>
+      <p class="kicker">Продвигаем</p>
+      <div class="scheme">
+        <div class="scheme-center">ВАША<br>КВАРТИРА</div>
+        <div class="channel c1"><b>Realt</b><p>Размещаем и дополнительно продвигаем объект.</p></div>
+        <div class="channel c2"><b>Kufar</b><p>Показываем квартиру там, где ищут жильё.</p></div>
+        <div class="channel c3"><b>Instagram</b><p>Дополнительно показываем объект потенциальным покупателям.</p></div>
+        <div class="channel c4"><b>Платная реклама</b><p>Расширяем охват за пределами обычного объявления.</p></div>
+        <div class="channel c5"><b>Наружка</b><p>Подключаем дополнительные каналы продвижения.</p></div>
+        <div class="channel c6"><b>База РИАЛИТИ</b><p>Предлагаем квартиру людям, которые уже ищут недвижимость.</p></div>
+      </div>
+      <p class="kicker" style="margin-top:20px;">Управляем продажей</p>
+      <div class="manage">
+        <div><b>Персональный риэлтер</b><p class="small" style="margin:6px 0 0;">Контролирует обращения, показы и переговоры.</p></div>
+        <div><b>Отчётность</b><p class="small" style="margin:6px 0 0;">Вы понимаете, что происходит с продажей.</p></div>
+      </div>
+
+      <p style="margin-top:24px; font-size:22px; font-weight:600;">В среднем на 30% быстрее обычного договора</p>
+    </div>
+  </section>
+
+  <!-- 04 CASES -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <p class="kicker">Реальные сделки</p>
+      <h2>Не обещания. Результаты РИАЛИТИ</h2>
+
+      <div class="cases">
+        <article class="case">
+          <div class="ph">Фото объекта</div>
+          <div class="case-body">
+            <div class="case-cat">Скорость</div>
+            <div class="case-num">1 день</div>
+            <h3>от просмотра до сделки</h3>
+            <p>Покупатель посмотрел квартиру, а уже на следующий день сделка была оформлена.</p>
+            <p class="note">Рекорд отдельной сделки. Срок продажи зависит от объекта, цены и спроса.</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="ph">Фото объектов + подтверждение</div>
+          <div class="case-body">
+            <div class="case-cat">Цена</div>
+            <div class="case-num">Самый дорогой м²</div>
+            <h3>умеем работать с высокой стоимостью</h3>
+            <p>В июле 2026 РИАЛИТИ продала квартиру с самым дорогим квадратным метром и самый дорогой коммерческий объект месяца.</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="ph">Визуальная схема сделки: 4 → 1 → 3</div>
+          <div class="case-body">
+            <div class="case-cat">Сложные сделки</div>
+            <div class="case-num">4 → 1 → 3</div>
+            <h3>четыре собственника и три встречные покупки</h3>
+            <p>Продали дом четырёх собственников и одновременно организовали покупку трёх квартир взамен.</p>
+          </div>
+        </article>
+      </div>
+      <p style="margin-top:20px; font-weight:600;">Быстро, дорого или сложно — для каждой продажи строим свою стратегию</p>
+    </div>
+  </section>
+
+  <!-- 04b REVIEWS -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <p class="kicker">Отзывы</p>
+      <h2>Что говорят клиенты РИАЛИТИ после сделки</h2>
+      <div class="ratings">
+        <div class="rating"><b>Google 4,7 ★</b>24 отзыва</div>
+        <div class="rating"><b>Яндекс 4,3 ★</b>24 оценки</div>
+      </div>
+      <div class="reviews">
+        <div class="review">
+          <div class="ph">Отзыв 1</div>
+          <b>Скорость / результат</b>
+          <p class="small">Карточка реального отзыва Google / Яндекс</p>
+        </div>
+        <div class="review">
+          <div class="ph">Отзыв 2</div>
+          <b>Работа риэлтера</b>
+          <p class="small">Карточка реального отзыва Google / Яндекс</p>
+        </div>
+        <div class="review">
+          <div class="ph">Отзыв 3</div>
+          <b>Коммуникация</b>
+          <p class="small">Карточка реального отзыва Google / Яндекс</p>
+        </div>
+        <div class="review">
+          <div class="ph">Отзыв 4</div>
+          <b>Сложная сделка</b>
+          <p class="small">Карточка реального отзыва Google / Яндекс</p>
+        </div>
+      </div>
+      <p><a href="#">Все отзывы о РИАЛИТИ →</a></p>
+    </div>
+  </section>
+
+  <!-- 05 PROCESS -->
+  <section class="section" id="process">
+    <div class="wrap">
+      <p class="kicker">Как проходит продажа</p>
+      <h2>От оценки до получения денег — всё берём на себя</h2>
+      <div class="process-line">
+        <div class="process-step"><b>Оценка</b><span>цена и стратегия</span></div>
+        <div class="process-step"><b>Упаковка</b><span>фото, видео, подача</span></div>
+        <div class="process-step"><b>Продвижение</b><span>площадки и реклама</span></div>
+        <div class="process-step"><b>Показы</b><span>отсев нецелевого спроса</span></div>
+        <div class="process-step"><b>Переговоры</b><span>защита цены</span></div>
+        <div class="process-step"><b>Сделка</b><span>оформление и деньги</span></div>
+      </div>
+      <p style="margin-top:20px; font-size:20px; font-weight:600;">Вы подключаетесь только там, где действительно нужны.</p>
+    </div>
+  </section>
+
+  <!-- 06 TRUST -->
+  <section class="section" id="trust">
+    <div class="wrap">
+      <p class="kicker">Доверие и безопасность</p>
+      <div class="trust-live">
+        <div class="ph">Фото команды РИАЛИТИ</div>
+        <div>
+          <h2>За продажей вашей квартиры стоят реальные люди</h2>
+          <p class="muted">Вы доверяете нам один из самых дорогих своих активов. Поэтому доверие подтверждаем фактами.</p>
+          <div class="trust-facts">
+            <div><b>20 лет опыта</b></div>
+            <div><b>Лицензия Минюста</b><br><span class="small">№02240/269 от 21.03.14</span></div>
+            <div><b>Ответственность застрахована</b></div>
+          </div>
+          <p class="small" style="margin-top:14px;">Сегодня в работе РИАЛИТИ — 270+ объектов недвижимости</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FEAR -->
+  <section class="section" id="fear">
+    <div class="wrap">
+      <p class="kicker">Главный страх эксклюзива</p>
+      <h2>«А если я подпишу эксклюзив, а квартиру не продадут?»</h2>
+      <p>Эксклюзив не означает, что вы отдаёте квартиру агентству и ждёте в неизвестности.</p>
+      <h3>На какой срок заключается эксклюзив?</h3>
+      <p>Договор заключается на <b>6 месяцев</b> — это даёт РИАЛИТИ возможность полноценно спланировать и вести продвижение объекта, а не ограничиваться разовым размещением объявления.</p>
+      <p>При этом задача — не ждать полгода. Эксклюзивные объекты РИАЛИТИ в среднем продаются на 30% быстрее обычного договора, а при продаже в первый месяц клиент получает <b>скидку 10% на услуги</b>.</p>
+      <h3>Цель — продать как можно быстрее, а не ждать окончания договора</h3>
+      <div class="timeline">
+        <p class="kicker">Договор</p>
+        <div class="timeline-marks">
+          <span>1 месяц</span>
+          <span>6 месяцев</span>
+        </div>
+        <div class="timeline-line"><i></i></div>
+        <div class="timeline-mark">
+          <b>Продажа за первый месяц</b>
+          <p class="small" style="margin:6px 0 0;">−10% на услуги РИАЛИТИ</p>
+        </div>
+        <p class="small" style="margin-top:14px;">Всё это время вы видите статистику продвижения, обращения, показы и обратную связь покупателей.</p>
+      </div>
+      <p>Вы видите:</p>
+      <div class="see">
+        <div>где рекламируется объект</div>
+        <div>сколько получено обращений</div>
+        <div>сколько прошло показов</div>
+        <div>что говорят покупатели</div>
+        <div>нужно ли менять стратегию</div>
+      </div>
+      <a class="btn btn-ghost" href="#report">Показать реальный пример отчёта</a>
+      <div class="ph" id="report" style="min-height:160px; margin:16px 0 24px;">Плейсхолдер: реальный пример отчёта</div>
+      <h2>Эксклюзив увеличивает ответственность РИАЛИТИ, а не ваш риск</h2>
+      <p><b>Оплата только после сделки</b></p>
+      <a class="btn" href="#form">Обсудить продажу с риэлтером</a>
+      <p class="small" style="margin-top:10px;">Без обязательств заключать договор после консультации.</p>
+    </div>
+  </section>
+
+  <!-- 08 FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <p class="kicker">FAQ</p>
+      <h2>Что важно знать перед продажей квартиры</h2>
+      <details open>
+        <summary>Почему не работать сразу с несколькими агентствами?</summary>
+        <p>При обычном договоре ответственность и вложения в объект распределяются между несколькими риэлтерами. Эксклюзив позволяет РИАЛИТИ выстроить единую стратегию и активнее продвигать квартиру.</p>
+      </details>
+      <details>
+        <summary>За сколько можно продать мою квартиру?</summary>
+        <p>Срок зависит от цены, состояния, района и спроса. По статистике РИАЛИТИ эксклюзивные объекты продаются в среднем на 30% быстрее обычного договора.</p>
+      </details>
+      <details>
+        <summary>Как определяется стоимость квартиры?</summary>
+        <p>Анализируем характеристики объекта, район, похожие предложения и текущий спрос, после чего предлагаем цену и стратегию продажи.</p>
+      </details>
+      <details>
+        <summary>Что если квартира уже давно продаётся?</summary>
+        <p>Разберём цену, объявления, продвижение и реакцию покупателей и покажем, что можно изменить.</p>
+      </details>
+      <details>
+        <summary>На какой срок заключается эксклюзивный договор?</summary>
+        <p>На 6 месяцев. Этот срок позволяет РИАЛИТИ взять объект в полноценную работу и выстроить стратегию продвижения. При этом цель агентства — провести сделку значительно раньше.</p>
+      </details>
+      <details>
+        <summary>Что будет, если квартиру продадут быстро?</summary>
+        <p>Если сделка проходит в течение первого месяца, клиент получает скидку 10% на услуги РИАЛИТИ.</p>
+      </details>
+      <details>
+        <summary>Сколько стоят услуги РИАЛИТИ?</summary>
+        <p>Стоимость рассчитывается по официальным тарифам и зависит от стоимости недвижимости. На сайте РИАЛИТИ ставка для содействия при продаже сейчас составляет от 6% до 1,5% стоимости объекта в зависимости от его ценовой категории. Если квартира продаётся в первый месяц действия эксклюзивного договора, РИАЛИТИ предоставляет скидку 10% на услугу.</p>
+        <p>Оплата только после сделки. Точные условия риэлтер сообщает до заключения договора.</p>
+        <p><a href="#form">Рассчитать стоимость услуг для моей квартиры →</a></p>
+      </details>
+      <details>
+        <summary>Какие документы понадобятся?</summary>
+        <p>Специалист РИАЛИТИ проверит ситуацию и заранее объяснит, какие документы нужны именно для вашей сделки.</p>
+      </details>
+
+      <div class="checklist" id="checklist">
+        <p>Пока не готовы обращаться в агентство?</p>
+        <p>Заберите чек-лист «12 ошибок, из-за которых квартира продаётся дольше и дешевле».</p>
+        <p><a href="#checklist-modal" id="checklist-open">Получить чек-лист →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 FORM -->
+  <section class="section" id="form">
+    <div class="wrap form-grid">
+      <div>
+        <p class="kicker">Главный следующий шаг</p>
+        <h2>Узнайте реальную стоимость квартиры и оптимальную цену выхода на рынок</h2>
+        <p>Получите предварительный разбор объекта перед продажей:</p>
+        <ul class="gets">
+          <li>диапазон рыночной стоимости</li>
+          <li>стартовая цена</li>
+          <li>ориентировочный срок</li>
+          <li>2–3 похожих объекта</li>
+        </ul>
+        <form action="#" method="get">
+          <div class="field">
+            <label for="name">Имя</label>
+            <input id="name" name="name" placeholder="Как к вам обращаться?">
+          </div>
+          <div class="field">
+            <label for="phone">Телефон</label>
+            <input id="phone" name="phone" placeholder="Куда отправить результат?">
+          </div>
+          <button type="button">Узнать стоимость и срок продажи</button>
+          <p class="small" style="margin-top:10px;">Бесплатно · Без обязательств · Оплата только после сделки</p>
+        </form>
+      </div>
+      <div>
+        <div class="ph" style="min-height:220px;">Фото риэлтера</div>
+        <p style="margin-top:12px;"><b>Имя · специалист РИАЛИТИ</b></p>
+        <p class="small">Уточню несколько деталей и расскажу, с какой стратегией лучше выходить на рынок.</p>
+        <p class="small">Или позвоните: <a href="tel:+375333234646">+375 (33) 323-46-46</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom:10px;">РИАЛИТИ</div>
+          <p>Эксклюзивная продажа квартир в Бресте.</p>
+          <p>Один объект. Одна стратегия. Один ответственный риэлтер.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Разделы</h3>
+          <a href="#why">Почему эксклюзив</a>
+          <a href="#promo">Как продвигаем</a>
+          <a href="#cases">Сделки</a>
+          <a href="#reviews">Отзывы</a>
+          <a href="#process">Как проходит продажа</a>
+          <a href="#trust">Доверие и безопасность</a>
+          <a href="#faq">Вопросы</a>
+          <a href="#form">Узнать стоимость</a>
+        </div>
+        <div class="footer-col">
+          <h3>Контакты</h3>
+          <p>г. Брест, ул. Советская 80-24<br>АТК «Берестейский пассаж»</p>
+          <p><a href="tel:+375333234646">+375 (33) 323-46-46</a></p>
+          <p><a href="mailto:anreal01@mail.ru">anreal01@mail.ru</a></p>
+          <p>Realt.by · Kufar · Google · Яндекс</p>
+          <p>Пн–Пт 9:00–19:00 · Сб 10:00–16:00</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>Лицензия №02240/269 выдана МЮ РБ 21.03.14 · УНП 291267309 · ответственность застрахована</div>
+        <div>© 2026 РИАЛИТИ</div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="phone-fixed" href="tel:+375333234646">
+    <span>Позвонить</span>
+    <b>+375 (33) 323-46-46</b>
+  </a>
+
+  <div class="modal" id="checklist-modal" hidden>
+    <div class="modal-box">
+      <h3>Куда отправить чек-лист?</h3>
+      <p class="small">Это не заявка на продажу. Только чек-лист «12 ошибок продавца».</p>
+      <form action="#" method="get">
+        <div class="field">
+          <label for="cl-contact">Telegram, телефон или email</label>
+          <input id="cl-contact" name="contact" placeholder="Куда отправить файл?">
+        </div>
+        <button type="button">Получить чек-лист</button>
+        <p class="small" style="margin-top:10px;"><a href="#" id="checklist-close">Закрыть</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('quiz-form');
+      if (!form) return;
+      var steps = form.querySelectorAll('.quiz-step');
+      var label = document.getElementById('quiz-step-label');
+      var bar = document.getElementById('quiz-bar');
+      function show(n) {
+        steps.forEach(function (step) {
+          step.classList.toggle('is-on', step.getAttribute('data-step') === String(n));
+        });
+        if (n < 6) {
+          label.textContent = 'Шаг ' + n + ' из 5';
+          bar.style.width = (n * 20) + '%';
+        } else {
+          label.textContent = 'Ваш результат';
+          bar.style.width = '100%';
+        }
+      }
+      var resultTitle = document.getElementById('quiz-result-title');
+      var resultText = document.getElementById('quiz-result-text');
+      form.querySelectorAll('.opts button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var group = btn.parentNode;
+          group.querySelectorAll('button').forEach(function (b) { b.classList.remove('is-on'); });
+          btn.classList.add('is-on');
+          var field = btn.getAttribute('data-field');
+          var value = btn.getAttribute('data-value');
+          if (field && value) {
+            var input = document.getElementById(field);
+            if (input) input.value = value;
+          }
+          if (btn.getAttribute('data-review') === '1') {
+            resultTitle.textContent = 'Разберём, почему квартира не продаётся';
+            resultText.textContent = 'Риэлтер покажет, что изменить в цене, подаче или продвижении, и даст предварительную оценку.';
+          } else if (btn.closest('[data-step="5"]')) {
+            resultTitle.textContent = 'Куда отправить расчёт?';
+            resultText.textContent = 'Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи.';
+          }
+          var step = btn.closest('.quiz-step');
+          var next = Number(step.getAttribute('data-step')) + 1;
+          if (next <= steps.length) show(next);
+        });
+      });
+      var district = document.getElementById('quiz-district');
+      if (district) {
+        district.addEventListener('change', function () {
+          if (district.value) show(2);
+        });
+      }
+
+      var modal = document.getElementById('checklist-modal');
+      var openBtn = document.getElementById('checklist-open');
+      var closeBtn = document.getElementById('checklist-close');
+      if (openBtn && modal) {
+        openBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          modal.hidden = false;
+        });
+      }
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          modal.hidden = true;
+        });
+      }
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) modal.hidden = true;
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
