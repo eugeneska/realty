@@ -149,6 +149,14 @@ button:focus-visible {
   box-shadow: none;
 }
 
+.site-header .logo img {
+  width: auto;
+  height: 48px;
+  max-width: min(240px, 62vw);
+  border-radius: 0;
+  object-fit: contain;
+}
+
 .logo-text {
   display: flex;
   flex-direction: column;
@@ -316,6 +324,24 @@ button:focus-visible {
   box-shadow: 0 10px 28px rgba(44, 28, 76, 0.45);
 }
 
+.header-cta,
+.hero-actions .btn-primary {
+  background: #7c56ba;
+  color: #fff;
+  border-color: #7c56ba;
+  box-shadow: 0 12px 28px rgba(124, 86, 186, 0.45);
+}
+
+.header-cta:hover,
+.header-cta:focus-visible,
+.hero-actions .btn-primary:hover,
+.hero-actions .btn-primary:focus-visible {
+  background: color-mix(in srgb, #7c56ba 65%, var(--color-lilac));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 14px 32px rgba(124, 86, 186, 0.55);
+}
+
 .btn-ghost {
   background: transparent;
   color: #fff;
@@ -391,7 +417,7 @@ button:focus-visible {
   will-change: transform;
   transform: scale(1.12);
   background: #1b112e center / cover no-repeat;
-  background-image: url("../imgs/hero/apartment.jpg");
+  background-image: url("../imgs/hero/apartment.webp");
 }
 
 .hero-scrim,
@@ -3743,7 +3769,7 @@ button:focus-visible {
   will-change: transform;
   transform: scale(1.15);
   background: #1b112e center 4% / cover no-repeat;
-  background-image: url("../imgs/team/team.jpg");
+  background-image: url("../imgs/team/team.webp");
 }
 
 .contacts-hero-scrim {
