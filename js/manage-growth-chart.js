@@ -1,4 +1,4 @@
-/* v1.0.4 */
+/* v1.0.7 */
 const containers = document.querySelectorAll("[data-manage-growth-chart]");
 
 if (containers.length) {
@@ -106,35 +106,112 @@ async function initManageGrowthCharts() {
     const xPositions = [-2.12, -1.08, -0.04, 1.0, 2.04];
     const bars = [];
 
+    const BAR_BASE_Y = 0.76;
+    const TUBE_RADIUS = 0.19;
+    const BAR_TOP_CAP = 0.18;
+    const MIN_VISUAL_GAP = 0.26;
+    const EXTRA_LINE_LIFT = 0.08;
+    const LINE_CLEARANCE = TUBE_RADIUS + BAR_TOP_CAP + MIN_VISUAL_GAP + EXTRA_LINE_LIFT;
+    const CURVE_XS = [-2.46].concat(xPositions);
+    const CURVE_Z = 0.48;
+
+    function barTopAtX(x, heights) {
+      for (let i = 0; i < xPositions.length; i++) {
+        if (Math.abs(x - xPositions[i]) < 0.001) {
+          return BAR_BASE_Y + heights[i];
+        }
+      }
+
+      if (x <= xPositions[0]) return BAR_BASE_Y + heights[0];
+      if (x >= xPositions[xPositions.length - 1]) {
+        return BAR_BASE_Y + heights[heights.length - 1];
+      }
+
+      for (let i = 0; i < xPositions.length - 1; i++) {
+        if (x >= xPositions[i] && x <= xPositions[i + 1]) {
+          const t = (x - xPositions[i]) / (xPositions[i + 1] - xPositions[i]);
+          const h = heights[i] * (1 - t) + heights[i + 1] * t;
+          return BAR_BASE_Y + h;
+        }
+      }
+
+      return BAR_BASE_Y + heights[heights.length - 1];
+    }
+
+    function lineCenterYAtX(x, heights) {
+      return barTopAtX(x, heights) + LINE_CLEARANCE;
+    }
+
+    function makeCurveEndPoint(heights) {
+      const lastIdx = xPositions.length - 1;
+      const lastX = xPositions[lastIdx];
+      const prevX = xPositions[lastIdx - 1];
+      const lastY = lineCenterYAtX(lastX, heights);
+      const prevY = lineCenterYAtX(prevX, heights);
+      const slope = (lastY - prevY) / (lastX - prevX);
+      const endX = lastX + 0.36;
+      const endY = lastY + slope * (endX - lastX);
+
+      return new THREE.Vector3(endX, endY, CURVE_Z);
+    }
+
+    function makeCurvePoints(heights) {
+      const points = CURVE_XS.map(function (x) {
+        return new THREE.Vector3(x, lineCenterYAtX(x, heights), CURVE_Z);
+      });
+
+      points.push(makeCurveEndPoint(heights));
+      return points;
+    }
+
     targetHeights.forEach(function (targetH, i) {
       const bar = roundedExtrudedMesh(1.02, 1, 1.12, 0.24, glossy(colors[i], 0.13), 0.10);
       bar.position.x = xPositions[i];
       bar.position.z = 0.05;
       bar.userData.targetH = targetH;
+      bar.scale.y = targetH;
+      bar.position.y = BAR_BASE_Y + targetH / 2;
       root.add(bar);
       bars.push(bar);
     });
 
     const arrowGroup = new THREE.Group();
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-2.46, 2.28, 0.34),
-      new THREE.Vector3(-1.52, 2.56, 0.35),
-      new THREE.Vector3(-0.58, 2.98, 0.36),
-      new THREE.Vector3(0.40, 3.54, 0.36),
-      new THREE.Vector3(1.34, 4.22, 0.36),
-      new THREE.Vector3(2.05, 4.88, 0.36)
-    ]);
+    const curve = new THREE.CatmullRomCurve3(makeCurvePoints(targetHeights));
     const arrowMat = glossy(0x813bef, 0.10);
-    const shaft = new THREE.Mesh(new THREE.TubeGeometry(curve, 80, 0.19, 20, false), arrowMat);
+    const shaft = new THREE.Mesh(new THREE.TubeGeometry(curve, 96, TUBE_RADIUS, 20, false), arrowMat);
     arrowGroup.add(shaft);
 
-    const end = curve.getPoint(1);
-    const tangent = curve.getTangent(1).normalize();
     const head = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.0, 40), arrowMat);
-    head.position.copy(end).add(tangent.clone().multiplyScalar(0.28));
-    head.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tangent);
     arrowGroup.add(head);
     root.add(arrowGroup);
+
+    function syncArrowToBars() {
+      const heights = bars.map(function (bar) {
+        return bar.scale.y;
+      });
+      const points = makeCurvePoints(heights);
+
+      if (curve.points.length !== points.length) {
+        curve.points = points.map(function (point) {
+          return point.clone();
+        });
+      } else {
+        for (let i = 0; i < points.length; i++) {
+          curve.points[i].copy(points[i]);
+        }
+      }
+
+      shaft.geometry.dispose();
+      shaft.geometry = new THREE.TubeGeometry(curve, 96, TUBE_RADIUS, 20, false);
+
+      const end = curve.getPoint(1);
+      const guideStart = curve.getPoint(0.84);
+      const tangent = end.clone().sub(guideStart).normalize();
+      head.position.copy(end).add(tangent.clone().multiplyScalar(0.34));
+      head.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tangent);
+    }
+
+    syncArrowToBars();
 
     const clock = new THREE.Clock();
     let raf = 0;
@@ -146,9 +223,9 @@ async function initManageGrowthCharts() {
 
     const sceneFrame = {
       width: 7.2,
-      height: 6.4,
+      height: 7.45,
       centerX: 0.1,
-      centerY: 2.95
+      centerY: 3.28
     };
 
     function fitCamera() {
@@ -189,12 +266,13 @@ async function initManageGrowthCharts() {
           const breathe = 1 + Math.sin(t * 2.0 + i * 0.55) * 0.004;
           const h = bar.userData.targetH * scaleFactor * breathe;
           bar.scale.y = h;
-          bar.position.y = 0.76 + h / 2;
+          bar.position.y = BAR_BASE_Y + h / 2;
         });
+
+        syncArrowToBars();
 
         const arrowWave = Math.sin(t * cycleSpeed - 0.35) * 0.5 + 0.5;
         const arrowEase = easeInOutSine(arrowWave);
-        arrowGroup.position.y = 0.02 + arrowEase * 0.06 + Math.sin(t * 1.75) * 0.01;
         arrowGroup.scale.setScalar(0.98 + arrowEase * 0.025 + Math.sin(t * 1.55) * 0.002);
         arrowGroup.rotation.z = Math.sin(t * 1.15) * 0.01;
       }
