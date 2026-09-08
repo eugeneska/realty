@@ -57,6 +57,28 @@
   --button-font-size: 13px;
   --header-height: 84px;
 
+  --type-kicker-size: 11px;
+  --type-kicker-tracking: 0.24em;
+  --type-kicker-line: 36px;
+  --type-kicker-gap: 14px;
+  --type-kicker-mb: 16px;
+  --type-kicker-dark: var(--color-gold-soft);
+  --type-kicker-light: var(--color-primary);
+
+  --type-h1: clamp(36px, 4.8vw, 60px);
+  --type-h2: clamp(32px, 4vw, 52px);
+  --type-h3: clamp(24px, 2.4vw, 32px);
+  --type-h1-mobile: clamp(28px, 7.2vw, 38px);
+  --type-h2-mobile: clamp(28px, 6.4vw, 38px);
+  --type-h3-mobile: clamp(22px, 5vw, 28px);
+
+  --type-lead: 17px;
+  --type-lead-lh: 1.55;
+  --type-lead-dark: rgba(255, 255, 255, 0.82);
+  --type-lead-light: var(--color-body);
+  --type-heading-dark: #fff;
+  --type-heading-light: var(--color-primary);
+
   --parallax-speed-bg: 0.32;
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-blur: 22px;

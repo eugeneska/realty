@@ -269,9 +269,59 @@
     var stageNum = process.querySelector(".process-stage-num");
     var stageTitle = process.querySelector(".process-stage-title");
     var stageCap = process.querySelector(".process-stage-cap");
+    var processImages = {};
     var active = 0;
     var primed = false;
     var processScrollRaf = 0;
+
+    nodes.forEach(function (node) {
+      var src = node.getAttribute("data-image");
+      if (!src || processImages[src]) return;
+      var img = new Image();
+      img.decoding = "async";
+      img.src = src;
+      processImages[src] = img;
+    });
+
+    function playProcessSwap() {
+      if (!primed || !stage || reduce.matches) return;
+      stage.classList.remove("is-swap");
+      void stage.offsetWidth;
+      stage.classList.add("is-swap");
+    }
+
+    function sameProcessImage(image) {
+      if (!stagePhoto || !image) return false;
+      var current = stagePhoto.getAttribute("src") || stagePhoto.src || "";
+      return current === image || current.endsWith("/" + image) || stagePhoto.src.endsWith("/" + image);
+    }
+
+    function setProcessPhoto(image, alt) {
+      if (!stagePhoto || !image || sameProcessImage(image)) return;
+
+      var applyPhoto = function () {
+        stagePhoto.src = image;
+        if (alt) stagePhoto.alt = alt;
+        playProcessSwap();
+      };
+
+      var cached = processImages[image];
+      if (cached && cached.complete) {
+        applyPhoto();
+        return;
+      }
+
+      var loader = cached || new Image();
+      loader.decoding = "async";
+      loader.addEventListener("load", function onProcessPhotoLoad() {
+        processImages[image] = loader;
+        applyPhoto();
+      }, { once: true });
+      if (!cached) {
+        loader.src = image;
+        processImages[image] = loader;
+      }
+    }
 
     function setProcessStep(index) {
       if (!nodes.length) return;
@@ -288,17 +338,7 @@
       if (stageNum) stageNum.textContent = node.getAttribute("data-num") || "";
       if (stageTitle) stageTitle.textContent = node.getAttribute("data-title") || "";
       if (stageCap) stageCap.textContent = node.getAttribute("data-cap") || "";
-      if (stagePhoto) {
-        var image = node.getAttribute("data-image");
-        var alt = node.getAttribute("data-alt") || "";
-        if (image) stagePhoto.src = image;
-        if (alt) stagePhoto.alt = alt;
-      }
-      if (primed && stage && !reduce.matches) {
-        stage.classList.remove("is-swap");
-        void stage.offsetWidth;
-        stage.classList.add("is-swap");
-      }
+      setProcessPhoto(node.getAttribute("data-image"), node.getAttribute("data-alt") || "");
       primed = true;
     }
 
@@ -504,10 +544,10 @@
       }
       if (btn.getAttribute("data-review") === "1") {
         resultTitle.textContent = "Разберём, почему квартира не продаётся";
-        resultText.textContent = "Риэлтер покажет, что изменить в цене, подаче или продвижении, и даст предварительную оценку.";
+        resultText.textContent = "Риэлтер покажет, что изменить в цене, подаче или продвижении, и даст предварительную оценку";
       } else if (btn.closest('[data-step="5"]')) {
         resultTitle.textContent = "Куда отправить расчёт?";
-        resultText.textContent = "Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи.";
+        resultText.textContent = "Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи";
       }
       var step = btn.closest(".quiz-step");
       var next = Number(step.getAttribute("data-step")) + 1;
