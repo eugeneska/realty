@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* v1.0.5 */
+/* v1.0.6 */
 
 html {
   scroll-behavior: smooth;
@@ -473,7 +473,9 @@ button:focus-visible {
 }
 
 .header-cta,
-.hero-actions .btn-primary {
+.hero-actions .btn-primary,
+.quiz-coda .btn-primary,
+.results-coda .btn-primary {
   background: #7c56ba;
   color: #fff;
   border-color: #7c56ba;
@@ -483,7 +485,11 @@ button:focus-visible {
 .header-cta:hover,
 .header-cta:focus-visible,
 .hero-actions .btn-primary:hover,
-.hero-actions .btn-primary:focus-visible {
+.hero-actions .btn-primary:focus-visible,
+.quiz-coda .btn-primary:hover,
+.quiz-coda .btn-primary:focus-visible,
+.results-coda .btn-primary:hover,
+.results-coda .btn-primary:focus-visible {
   background: color-mix(in srgb, #7c56ba 65%, var(--color-lilac));
   color: #fff;
   border-color: transparent;
@@ -1527,7 +1533,21 @@ button:focus-visible {
 
 .quiz-coda.section-coda,
 .results-coda.section-coda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
   margin: 56px auto 0;
+  max-width: none;
+  width: 100%;
+  text-align: left;
+}
+
+.quiz-coda.section-coda::before,
+.quiz-coda.section-coda::after,
+.results-coda.section-coda::before,
+.results-coda.section-coda::after {
+  display: none;
 }
 
 .results .results-coda.section-coda {
@@ -1537,11 +1557,18 @@ button:focus-visible {
 .quiz-coda p,
 .results-coda p {
   margin: 0;
+  flex: 1;
+  min-width: 0;
+  max-width: 36em;
 }
 
 .quiz-coda .btn,
 .results-coda .btn {
-  margin-top: 20px;
+  margin-top: 0;
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-style: normal;
+  letter-spacing: 0.14em;
 }
 
 .quiz-done {
@@ -4310,9 +4337,9 @@ button:focus-visible {
 }
 
 .site-footer {
-  background: #dcd8d2;
-  border-top: 1px solid #c8c3bb;
-  color: var(--color-body);
+  background: #3f3f3f;
+  border-top: 1px solid #555;
+  color: rgba(255, 255, 255, 0.82);
   padding: 48px 0 40px;
   font-size: 14px;
 }
@@ -4336,6 +4363,10 @@ button:focus-visible {
   box-shadow: none;
 }
 
+.site-footer .footer-col .logo img {
+  box-shadow: none;
+}
+
 .footer-col h3 {
   margin: 0 0 14px;
   font-size: 12px;
@@ -4343,6 +4374,10 @@ button:focus-visible {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-primary);
+}
+
+.site-footer .footer-col h3 {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .footer-col a,
@@ -4354,9 +4389,19 @@ button:focus-visible {
   line-height: 1.5;
 }
 
+.site-footer .footer-col a,
+.site-footer .footer-col p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .footer-col a:hover,
 .footer-col a:focus-visible {
   color: var(--color-primary);
+}
+
+.site-footer .footer-col a:hover,
+.site-footer .footer-col a:focus-visible {
+  color: var(--color-gold-soft);
 }
 
 .footer-social {
@@ -4377,6 +4422,17 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.42);
   color: var(--color-primary);
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.site-footer .footer-social a {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.site-footer .footer-social a img {
+  filter: brightness(0) invert(1);
+  opacity: 0.88;
 }
 
 .footer-social a img {
@@ -4411,10 +4467,19 @@ button:focus-visible {
   text-decoration: none;
 }
 
+.site-footer .footer-legal a {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .footer-legal a:hover,
 .footer-legal a:focus-visible {
   color: var(--color-primary);
   text-decoration: underline;
+}
+
+.site-footer .footer-legal a:hover,
+.site-footer .footer-legal a:focus-visible {
+  color: var(--color-gold-soft);
 }
 
 .footer-bottom {
@@ -4427,6 +4492,10 @@ button:focus-visible {
   border-top: 1px solid rgba(44, 28, 76, 0.12);
 }
 
+.site-footer .footer-bottom {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
 .footer-copy {
   text-align: center;
   justify-self: center;
@@ -4436,6 +4505,12 @@ button:focus-visible {
   margin: 0;
   font-size: 13px;
   color: var(--color-body-500);
+}
+
+.site-footer .footer-copy p,
+.site-footer .footer-bottom p,
+.site-footer .footer-credit-wrap {
+  color: rgba(255, 255, 255, 0.52);
 }
 
 .footer-credit-wrap {
@@ -4462,6 +4537,11 @@ button:focus-visible {
 .footer-credit:focus-visible {
   color: var(--color-primary);
   text-decoration: underline;
+}
+
+.site-footer .footer-credit:hover,
+.site-footer .footer-credit:focus-visible {
+  color: var(--color-gold-soft);
 }
 
 .sheet {
@@ -5503,6 +5583,23 @@ button:focus-visible {
   }
 
   .quiz-submit {
+    width: 100%;
+  }
+
+  .quiz-coda.section-coda,
+  .results-coda.section-coda {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .quiz-coda p,
+  .results-coda p {
+    max-width: none;
+  }
+
+  .quiz-coda .btn,
+  .results-coda .btn {
     width: 100%;
   }
 
