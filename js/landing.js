@@ -1,4 +1,5 @@
 (function () {
+  /* v1.0.1 */
   var header = document.getElementById("site-header");
   var toggle = header.querySelector(".menu-toggle");
   var bg = document.querySelector("[data-parallax='bg']");
@@ -1004,7 +1005,8 @@
   }
 
   var callFab = document.querySelector(".call-fab");
-  if (callFab && !reduce.matches) {
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  if (callFab && !reduce.matches && finePointer.matches) {
     function fabBusy() {
       return callFab.matches(":hover") || callFab.matches(":focus-visible") || document.hidden;
     }

@@ -4,9 +4,13 @@
   box-sizing: border-box;
 }
 
+/* v1.0.4 */
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 24px;
+  overflow-x: clip;
+  background: var(--color-ivory);
 }
 
 body {
@@ -16,7 +20,8 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--color-body);
-  background: var(--color-night-deep);
+  background: var(--color-ivory);
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -1552,7 +1557,8 @@ button:focus-visible {
     radial-gradient(720px 420px at 50% 42%, rgba(196, 162, 101, 0.1), transparent 68%),
     var(--color-ivory);
   padding: 96px 0 96px;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .promo::before {
@@ -1614,7 +1620,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  overflow: hidden;
+  overflow: visible;
   background: rgba(44, 28, 76, 0.12);
   border: 1px solid rgba(44, 28, 76, 0.12);
 }
@@ -1627,6 +1633,7 @@ button:focus-visible {
   align-items: center;
   padding: 32px 36px;
   background: rgba(255, 255, 255, 0.78);
+  overflow: visible;
 }
 
 .manage-card-copy {
@@ -1658,14 +1665,15 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 168px;
-  height: 132px;
+  width: 192px;
+  height: 176px;
   overflow: visible;
 }
 
 .manage-growth-chart {
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 .manage-growth-chart canvas {
@@ -5178,6 +5186,10 @@ button:focus-visible {
     transform: rotate(-45deg);
   }
 
+  .hero {
+    min-height: 100svh;
+  }
+
   .hero-bg {
     transform: none;
     inset: 0;
@@ -5191,6 +5203,15 @@ button:focus-visible {
 
   .hero h1 {
     font-size: clamp(28px, 7.2vw, 36px);
+  }
+
+  .hero h1 em {
+    white-space: normal;
+  }
+
+  .why .section-coda {
+    white-space: normal;
+    max-width: none;
   }
 
   .hero-actions {
@@ -5304,8 +5325,8 @@ button:focus-visible {
   }
 
   .manage-visual--growth {
-    width: 148px;
-    height: 116px;
+    width: 168px;
+    height: 152px;
   }
 
   .manage-stat {
@@ -5780,9 +5801,33 @@ button:focus-visible {
     width: 100%;
     transform: none;
     flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 14px;
     text-align: left;
     padding: 16px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(44, 28, 76, 0.12);
+  }
+
+  .channel-gem {
+    flex: 0 0 18px;
+    margin-top: 0.42em;
+  }
+
+  .channel-copy {
+    align-items: flex-start;
+    text-align: left;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .channel-copy b,
+  .channel-copy p {
+    text-align: left;
+  }
+
+  .channel-copy p {
+    max-width: none;
   }
 }
 
@@ -6042,6 +6087,7 @@ button:focus-visible {
   background: linear-gradient(180deg, #e8d4a4 0%, var(--color-gold) 100%);
   color: var(--color-night-deep);
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   box-shadow: 0 12px 28px rgba(196, 162, 101, 0.42), 0 8px 20px rgba(12, 6, 24, 0.22);
   animation: call-fab-glow 2.4s ease-in-out infinite;
   transition: width 420ms var(--ease-luxe), padding 420ms var(--ease-luxe), background-color 280ms var(--ease-luxe), color 280ms var(--ease-luxe), border-color 280ms var(--ease-luxe), box-shadow 280ms var(--ease-luxe);
@@ -6175,15 +6221,25 @@ button:focus-visible {
 }
 
 @media (hover: none), (max-width: 980px) {
-  .call-fab {
+  .call-fab,
+  .call-fab.is-open,
+  .call-fab.is-nudge,
+  .call-fab:hover,
+  .call-fab:focus,
+  .call-fab:focus-visible,
+  .call-fab:active {
     width: 56px;
     height: 56px;
     padding: 0;
     justify-content: center;
-    background: linear-gradient(180deg, #e8d4a4 0%, var(--color-gold) 100%);
-    color: var(--color-night-deep);
-    border-color: var(--color-gold-soft);
-    box-shadow: 0 10px 24px rgba(44, 28, 76, 0.28);
+    transform: none;
+    animation: call-fab-glow 2.4s ease-in-out infinite;
+    transition: background-color 280ms var(--ease-luxe), color 280ms var(--ease-luxe), border-color 280ms var(--ease-luxe), box-shadow 280ms var(--ease-luxe), filter 120ms ease;
+  }
+
+  .call-fab:active {
+    filter: brightness(0.94);
+    box-shadow: 0 6px 16px rgba(44, 28, 76, 0.24);
   }
 
   .call-fab-icon svg {
@@ -6191,38 +6247,14 @@ button:focus-visible {
     height: 24px;
   }
 
-  .call-fab:hover:not(.is-open),
-  .call-fab:focus-visible:not(.is-open) {
-    width: 56px;
-    padding: 0;
-    background: linear-gradient(180deg, #e8d4a4 0%, var(--color-gold) 100%);
-    color: var(--color-night-deep);
-    border-color: var(--color-gold-soft);
-  }
-
-  .call-fab:not(.is-open) .call-fab-copy {
+  .call-fab-copy,
+  .call-fab.is-open .call-fab-copy,
+  .call-fab:hover .call-fab-copy,
+  .call-fab:focus-visible .call-fab-copy {
     display: none;
-  }
-
-  .call-fab.is-open {
-    width: 262px;
-    height: 52px;
-    padding: 0 16px 0 9px;
-    justify-content: flex-start;
-    background: linear-gradient(180deg, #e8d4a4 0%, var(--color-gold) 100%);
-    color: var(--color-night-deep);
-    border-color: var(--color-gold-soft);
-  }
-
-  .call-fab.is-open .call-fab-copy {
-    display: flex;
-    max-width: 180px;
-    margin-left: 8px;
-    opacity: 1;
-  }
-
-  .call-fab.is-open .call-fab-copy b {
-    color: rgba(12, 6, 24, 0.62);
+    max-width: 0;
+    margin-left: 0;
+    opacity: 0;
   }
 }
 

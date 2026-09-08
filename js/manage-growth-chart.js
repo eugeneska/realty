@@ -1,3 +1,4 @@
+/* v1.0.4 */
 const containers = document.querySelectorAll("[data-manage-growth-chart]");
 
 if (containers.length) {
@@ -16,9 +17,7 @@ async function initManageGrowthCharts() {
 
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    camera.position.set(0.1, 3.9, 11.8);
-    camera.lookAt(0.1, 2.35, 0);
+    const camera = new THREE.PerspectiveCamera(44, 1, 0.1, 100);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -95,6 +94,7 @@ async function initManageGrowthCharts() {
 
     const root = new THREE.Group();
     root.rotation.set(-0.08, 0, 0);
+    root.scale.setScalar(0.93);
     scene.add(root);
 
     const base = roundedExtrudedMesh(6.65, 0.68, 1.72, 0.32, glossy(0xb99aee, 0.20), 0.12);
@@ -102,12 +102,12 @@ async function initManageGrowthCharts() {
     root.add(base);
 
     const colors = [0xdfceff, 0xc8a8ff, 0xac78f7, 0x8248df, 0x4d2086];
-    const targetHeights = [1.0, 1.55, 2.15, 2.85, 3.6];
+    const targetHeights = [1.15, 1.78, 2.46, 3.26, 4.12];
     const xPositions = [-2.12, -1.08, -0.04, 1.0, 2.04];
     const bars = [];
 
     targetHeights.forEach(function (targetH, i) {
-      const bar = roundedExtrudedMesh(0.82, 1, 0.96, 0.20, glossy(colors[i], 0.13), 0.10);
+      const bar = roundedExtrudedMesh(1.02, 1, 1.12, 0.24, glossy(colors[i], 0.13), 0.10);
       bar.position.x = xPositions[i];
       bar.position.z = 0.05;
       bar.userData.targetH = targetH;
@@ -117,21 +117,21 @@ async function initManageGrowthCharts() {
 
     const arrowGroup = new THREE.Group();
     const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-2.46, 2.00, 0.34),
-      new THREE.Vector3(-1.52, 2.30, 0.35),
-      new THREE.Vector3(-0.58, 2.75, 0.36),
-      new THREE.Vector3(0.40, 3.35, 0.36),
-      new THREE.Vector3(1.34, 4.08, 0.36),
-      new THREE.Vector3(2.05, 4.82, 0.36)
+      new THREE.Vector3(-2.46, 2.28, 0.34),
+      new THREE.Vector3(-1.52, 2.56, 0.35),
+      new THREE.Vector3(-0.58, 2.98, 0.36),
+      new THREE.Vector3(0.40, 3.54, 0.36),
+      new THREE.Vector3(1.34, 4.22, 0.36),
+      new THREE.Vector3(2.05, 4.88, 0.36)
     ]);
     const arrowMat = glossy(0x813bef, 0.10);
-    const shaft = new THREE.Mesh(new THREE.TubeGeometry(curve, 80, 0.20, 20, false), arrowMat);
+    const shaft = new THREE.Mesh(new THREE.TubeGeometry(curve, 80, 0.19, 20, false), arrowMat);
     arrowGroup.add(shaft);
 
     const end = curve.getPoint(1);
     const tangent = curve.getTangent(1).normalize();
-    const head = new THREE.Mesh(new THREE.ConeGeometry(0.56, 1.18, 40), arrowMat);
-    head.position.copy(end).add(tangent.clone().multiplyScalar(0.37));
+    const head = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.0, 40), arrowMat);
+    head.position.copy(end).add(tangent.clone().multiplyScalar(0.28));
     head.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tangent);
     arrowGroup.add(head);
     root.add(arrowGroup);
@@ -140,15 +140,31 @@ async function initManageGrowthCharts() {
     let raf = 0;
     let visible = true;
 
-    function easeOutBack(x) {
-      const c1 = 1.15;
-      const c3 = c1 + 1;
-      return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+    function easeInOutSine(x) {
+      return -(Math.cos(Math.PI * THREE.MathUtils.clamp(x, 0, 1)) - 1) / 2;
     }
 
-    function smoothstep(x) {
-      x = THREE.MathUtils.clamp(x, 0, 1);
-      return x * x * (3 - 2 * x);
+    const sceneFrame = {
+      width: 7.2,
+      height: 6.4,
+      centerX: 0.1,
+      centerY: 2.95
+    };
+
+    function fitCamera() {
+      const w = Math.max(1, container.clientWidth);
+      const h = Math.max(1, container.clientHeight);
+      camera.aspect = w / h;
+
+      const vFov = THREE.MathUtils.degToRad(camera.fov);
+      const distForHeight = (sceneFrame.height * 0.5) / Math.tan(vFov * 0.5);
+      const hFov = 2 * Math.atan(Math.tan(vFov * 0.5) * camera.aspect);
+      const distForWidth = (sceneFrame.width * 0.5) / Math.tan(hFov * 0.5);
+      const distance = Math.max(distForHeight, distForWidth) * 1.14;
+
+      camera.position.set(sceneFrame.centerX, sceneFrame.centerY + 0.45, distance);
+      camera.lookAt(sceneFrame.centerX, sceneFrame.centerY - 0.2, 0);
+      camera.updateProjectionMatrix();
     }
 
     function render() {
@@ -158,30 +174,29 @@ async function initManageGrowthCharts() {
       const t = clock.getElapsedTime();
 
       if (!reduce.matches) {
-        root.position.y = Math.sin(t * 1.25) * 0.075;
+        root.position.y = Math.sin(t * 1.25) * 0.035;
         root.rotation.y = Math.sin(t * 0.62) * 0.018;
         root.rotation.x = -0.08 + Math.sin(t * 0.82) * 0.012;
         root.rotation.z = Math.sin(t * 0.72) * 0.008;
 
-        const cycle = 4.4;
-        const phase = (t % cycle) / cycle;
+        const cycleSpeed = 1.35;
 
         bars.forEach(function (bar, i) {
-          const delay = i * 0.065;
-          const local = THREE.MathUtils.clamp((phase - delay) / 0.52, 0, 1);
-          const e = easeOutBack(local);
+          const wave = Math.sin(t * cycleSpeed - i * 0.55) * 0.5 + 0.5;
+          const e = easeInOutSine(wave);
           const low = 0.86;
           const scaleFactor = low + (1 - low) * e;
-          const breathe = 1 + Math.sin(t * 2.0 + i * 0.55) * 0.006;
+          const breathe = 1 + Math.sin(t * 2.0 + i * 0.55) * 0.004;
           const h = bar.userData.targetH * scaleFactor * breathe;
           bar.scale.y = h;
           bar.position.y = 0.76 + h / 2;
         });
 
-        const arrowP = smoothstep(phase / 0.62);
-        arrowGroup.position.y = -0.22 + arrowP * 0.22 + Math.sin(t * 1.75) * 0.035;
-        arrowGroup.scale.setScalar(0.975 + arrowP * 0.025 + Math.sin(t * 1.55) * 0.003);
-        arrowGroup.rotation.z = Math.sin(t * 1.15) * 0.012;
+        const arrowWave = Math.sin(t * cycleSpeed - 0.35) * 0.5 + 0.5;
+        const arrowEase = easeInOutSine(arrowWave);
+        arrowGroup.position.y = 0.02 + arrowEase * 0.06 + Math.sin(t * 1.75) * 0.01;
+        arrowGroup.scale.setScalar(0.98 + arrowEase * 0.025 + Math.sin(t * 1.55) * 0.002);
+        arrowGroup.rotation.z = Math.sin(t * 1.15) * 0.01;
       }
 
       renderer.render(scene, camera);
@@ -191,8 +206,7 @@ async function initManageGrowthCharts() {
     function resize() {
       const w = Math.max(1, container.clientWidth);
       const h = Math.max(1, container.clientHeight);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+      fitCamera();
       renderer.setSize(w, h, false);
     }
 
