@@ -402,16 +402,8 @@
               <h3>Персональный риэлтер</h3>
               <p>Контролирует обращения, показы и переговоры.</p>
             </div>
-            <div class="manage-visual manage-visual--realtors">
-              <div class="manage-realtor">
-                <img src="imgs/team/marina_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
-              </div>
-              <div class="manage-realtor">
-                <img src="imgs/team/vikt_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
-              </div>
-              <div class="manage-realtor">
-                <img src="imgs/team/daira_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
-              </div>
+            <div class="manage-visual manage-visual--realtor">
+              <img src="imgs/team/marina_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
             </div>
           </article>
           <article class="manage-card">
@@ -419,42 +411,8 @@
               <h3>Отчётность</h3>
               <p>Вы понимаете, что происходит с продажей.</p>
             </div>
-            <div class="manage-visual manage-visual--chart" aria-hidden="true">
-              <svg class="manage-chart" viewBox="0 0 300 168" role="presentation">
-                <defs>
-                  <linearGradient id="manage-chart-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#c4a265" stop-opacity="0.34"></stop>
-                    <stop offset="100%" stop-color="#c4a265" stop-opacity="0"></stop>
-                  </linearGradient>
-                </defs>
-                <text class="manage-chart-label manage-chart-label--y" transform="rotate(-90)" x="-86" y="12">Обращения</text>
-                <g class="manage-chart-plot">
-                  <line class="manage-chart-axis-line" x1="48" y1="20" x2="48" y2="124"></line>
-                  <line class="manage-chart-axis-line" x1="48" y1="124" x2="284" y2="124"></line>
-                  <line class="manage-chart-grid-line" x1="48" y1="90" x2="284" y2="90"></line>
-                  <line class="manage-chart-grid-line" x1="48" y1="56" x2="284" y2="56"></line>
-                  <line class="manage-chart-grid-line" x1="48" y1="22" x2="284" y2="22"></line>
-                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="128">0</text>
-                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="94">10</text>
-                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="60">20</text>
-                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="26">30</text>
-                  <text class="manage-chart-tick manage-chart-tick--x" x="74" y="140">1</text>
-                  <text class="manage-chart-tick manage-chart-tick--x" x="130" y="140">2</text>
-                  <text class="manage-chart-tick manage-chart-tick--x" x="186" y="140">3</text>
-                  <text class="manage-chart-tick manage-chart-tick--x" x="242" y="140">4</text>
-                  <text class="manage-chart-label manage-chart-label--x" x="166" y="156">Недели</text>
-                  <rect class="manage-chart-bar manage-chart-bar--1" x="58" y="97" width="32" height="27" rx="3"></rect>
-                  <rect class="manage-chart-bar manage-chart-bar--2" x="114" y="76" width="32" height="48" rx="3"></rect>
-                  <rect class="manage-chart-bar manage-chart-bar--3" x="170" y="49" width="32" height="75" rx="3"></rect>
-                  <rect class="manage-chart-bar manage-chart-bar--4" x="226" y="22" width="32" height="102" rx="3"></rect>
-                  <path class="manage-chart-area" d="M74 97 L130 76 L186 49 L242 22 L242 124 L74 124 Z"></path>
-                  <polyline class="manage-chart-line" points="74,97 130,76 186,49 242,22"></polyline>
-                  <circle class="manage-chart-dot" cx="74" cy="97" r="4"></circle>
-                  <circle class="manage-chart-dot" cx="130" cy="76" r="4"></circle>
-                  <circle class="manage-chart-dot" cx="186" cy="49" r="4"></circle>
-                  <circle class="manage-chart-dot manage-chart-dot--last" cx="242" cy="22" r="5"></circle>
-                </g>
-              </svg>
+            <div class="manage-visual manage-visual--growth" aria-hidden="true">
+              <div class="manage-growth-chart" data-manage-growth-chart></div>
             </div>
           </article>
           <p class="manage-stat">
@@ -678,97 +636,74 @@
 
       <div class="process-board" data-reveal>
         <article class="process-stage" aria-live="polite">
-          <span class="process-stage-glow" aria-hidden="true"></span>
-          <svg class="process-ring" viewBox="0 0 120 120" aria-hidden="true">
-            <circle class="process-ring-track" cx="60" cy="60" r="52"></circle>
-            <circle class="process-ring-fill" cx="60" cy="60" r="52"></circle>
-          </svg>
-          <span class="process-stage-icon" aria-hidden="true">
-            <img src="imgs/review.svg" alt="">
-          </span>
-          <p class="process-stage-index" aria-hidden="true">01</p>
-          <div class="process-stage-copy">
-            <h3>Оценка</h3>
-            <p class="process-stage-cap">цена и стратегия</p>
-          </div>
+          <figure class="process-stage-photo">
+            <img src="imgs/process/process-01-appraisal.webp" alt="Оценка квартиры: цена и стратегия" width="800" height="600" decoding="async">
+            <figcaption class="process-stage-overlay">
+              <p class="process-stage-step"><span class="process-stage-num">01</span><span class="process-stage-total">/ 06</span></p>
+              <h3 class="process-stage-title">Оценка</h3>
+              <p class="process-stage-cap">цена и стратегия</p>
+            </figcaption>
+          </figure>
         </article>
 
         <ol class="process-track">
           <li>
-            <button class="process-node is-on" type="button" aria-current="step" data-num="01" data-title="Оценка" data-cap="цена и стратегия">
+            <button class="process-node is-on" type="button" aria-current="step" data-num="01" data-title="Оценка" data-cap="цена и стратегия" data-image="imgs/process/process-01-appraisal.webp" data-alt="Оценка квартиры: цена и стратегия">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">01</span>
               <span class="process-node-copy">
                 <b>Оценка</b>
                 <span class="process-cap">цена и стратегия</span>
               </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/review.svg" alt="">
-              </span>
             </button>
           </li>
           <li>
-            <button class="process-node" type="button" data-num="02" data-title="Упаковка" data-cap="фото, видео, подача">
+            <button class="process-node" type="button" data-num="02" data-title="Упаковка" data-cap="фото, видео, подача" data-image="imgs/process/process-02-packaging.webp" data-alt="Профессиональная фото- и видеосъёмка квартиры">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">02</span>
               <span class="process-node-copy">
                 <b>Упаковка</b>
                 <span class="process-cap">фото, видео, подача</span>
               </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/case.svg" alt="">
-              </span>
             </button>
           </li>
           <li>
-            <button class="process-node" type="button" data-num="03" data-title="Продвижение" data-cap="площадки и реклама">
+            <button class="process-node" type="button" data-num="03" data-title="Продвижение" data-cap="площадки и реклама" data-image="imgs/process/process-03-promotion.webp" data-alt="Размещение объявления на площадках и в рекламе">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">03</span>
               <span class="process-node-copy">
                 <b>Продвижение</b>
                 <span class="process-cap">площадки и реклама</span>
               </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/ads.svg" alt="">
-              </span>
             </button>
           </li>
           <li>
-            <button class="process-node" type="button" data-num="04" data-title="Показы" data-cap="отсев нецелевого спроса">
+            <button class="process-node" type="button" data-num="04" data-title="Показы" data-cap="отсев нецелевого спроса" data-image="imgs/process/process-04-showing.webp" data-alt="Организация показов квартиры покупателям">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">04</span>
               <span class="process-node-copy">
                 <b>Показы</b>
                 <span class="process-cap">отсев нецелевого спроса</span>
               </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/eye.svg" alt="">
-              </span>
             </button>
           </li>
           <li>
-            <button class="process-node" type="button" data-num="05" data-title="Переговоры" data-cap="защита цены">
+            <button class="process-node" type="button" data-num="05" data-title="Переговоры" data-cap="защита цены" data-image="imgs/process/process-05-negotiation.webp" data-alt="Переговоры с покупателем и защита цены">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">05</span>
               <span class="process-node-copy">
                 <b>Переговоры</b>
                 <span class="process-cap">защита цены</span>
               </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/negot.svg" alt="">
-              </span>
             </button>
           </li>
           <li>
-            <button class="process-node" type="button" data-num="06" data-title="Сделка" data-cap="оформление и деньги">
+            <button class="process-node" type="button" data-num="06" data-title="Сделка" data-cap="оформление и деньги" data-image="imgs/process/process-06-deal.webp" data-alt="Оформление сделки и получение денег">
               <span class="process-gem" aria-hidden="true"></span>
               <span class="process-node-num">06</span>
               <span class="process-node-copy">
                 <b>Сделка</b>
                 <span class="process-cap">оформление и деньги</span>
-              </span>
-              <span class="process-icon" hidden>
-                <img src="imgs/deal.svg" alt="">
               </span>
             </button>
           </li>
@@ -1229,5 +1164,6 @@
   </a>
 
   <script src="js/landing.js"></script>
+  <script type="module" src="js/manage-growth-chart.js"></script>
 </body>
 </html>

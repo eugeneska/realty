@@ -264,10 +264,10 @@
   if (process) {
     var nodes = Array.prototype.slice.call(process.querySelectorAll(".process-node"));
     var stage = process.querySelector(".process-stage");
-    var stageIndex = process.querySelector(".process-stage-index");
-    var stageTitle = process.querySelector(".process-stage-copy h3");
+    var stagePhoto = process.querySelector(".process-stage-photo img");
+    var stageNum = process.querySelector(".process-stage-num");
+    var stageTitle = process.querySelector(".process-stage-title");
     var stageCap = process.querySelector(".process-stage-cap");
-    var stageIcon = process.querySelector(".process-stage-icon");
     var active = 0;
     var primed = false;
     var processScrollRaf = 0;
@@ -284,13 +284,14 @@
         else el.removeAttribute("aria-current");
       });
       process.style.setProperty("--process-p", String(nodes.length > 1 ? active / (nodes.length - 1) : 1));
-      process.style.setProperty("--process-ring", String((active + 1) / nodes.length));
-      if (stageIndex) stageIndex.textContent = node.getAttribute("data-num") || "";
+      if (stageNum) stageNum.textContent = node.getAttribute("data-num") || "";
       if (stageTitle) stageTitle.textContent = node.getAttribute("data-title") || "";
       if (stageCap) stageCap.textContent = node.getAttribute("data-cap") || "";
-      if (stageIcon) {
-        var icon = node.querySelector(".process-icon");
-        if (icon) stageIcon.innerHTML = icon.innerHTML;
+      if (stagePhoto) {
+        var image = node.getAttribute("data-image");
+        var alt = node.getAttribute("data-alt") || "";
+        if (image) stagePhoto.src = image;
+        if (alt) stagePhoto.alt = alt;
       }
       if (primed && stage && !reduce.matches) {
         stage.classList.remove("is-swap");
