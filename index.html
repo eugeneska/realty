@@ -60,7 +60,7 @@
           <h1>Продайте квартиру в Бресте <em>на 30% быстрее</em>, сохранив максимум от её стоимости</h1>
           <p class="hero-lead">Берём квартиру в персональную работу и сами ищем покупателя — не ждём звонков по объявлению.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#quiz" data-magnetic>Узнать стоимость и срок продажи</a>
+            <a class="btn btn-primary" href="#quiz">Узнать стоимость и срок продажи</a>
             <a class="btn btn-ghost" href="#discount">Получить −10% на услуги</a>
           </div>
           <ul class="assures">
@@ -153,11 +153,11 @@
         <div class="why-main">
           <header class="why-head" data-reveal>
             <p class="kicker">Почему эксклюзив</p>
-            <h2 data-split="words">Пять риэлтеров не означают в пять раз больше шансов продать</h2>
+            <h2>Пять риэлтеров не означают<br>в пять раз больше шансов продать</h2>
             <p class="why-lead">Когда одну квартиру продают сразу несколько агентств, никто не уверен, что именно он завершит сделку. Поэтому ответственность и вложения в объект размываются.</p>
           </header>
 
-          <div class="versus" data-reveal data-tilt-group>
+          <div class="versus" data-reveal>
             <div class="versus-head">
               <span>Обычный договор</span>
               <span>Эксклюзив РИАЛИТИ</span>
@@ -186,8 +186,8 @@
         </div>
 
         <aside class="pledge-aside">
-          <div class="pledge" id="discount" data-reveal data-tilt="4">
-            <h3>Эксклюзив работает в обе стороны</h3>
+          <div class="pledge" id="discount" data-reveal>
+            <h3>Эксклюзив работает<br>в обе стороны</h3>
             <p>Вы доверяете РИАЛИТИ продажу квартиры на период договора, а РИАЛИТИ берёт на себя персональную ответственность за её продвижение.</p>
             <p class="pledge-offer">Если квартира продаётся уже в первый месяц — вы получаете скидку 10% на услуги агентства.</p>
           </div>
@@ -205,17 +205,10 @@
     </div>
     <div class="wrap">
       <header class="quiz-head" data-reveal>
-        <p class="kicker">Расчёт стоимости и срока</p>
-        <h2 data-split="words">Узнайте стоимость квартиры и реальный срок её продажи</h2>
-        <p class="quiz-lead">Ответьте на 5 вопросов — риэлтер РИАЛИТИ сравнит объект с похожими предложениями и подготовит предварительную оценку.</p>
+        <p class="kicker">Расчёт стоимости и срока продажи</p>
+        <h2>Узнайте стоимость квартиры<br>и реальный срок её продажи</h2>
         <p class="quiz-note">Неправильная стартовая цена может затянуть продажу и усилить торг покупателей.</p>
       </header>
-
-      <p class="quiz-path" aria-hidden="true">
-        <span>5 вопросов</span>
-        <i></i>
-        <span>Ваш результат</span>
-      </p>
 
       <div class="quiz-board" data-quiz data-reveal>
         <div class="quiz-progress">
@@ -240,26 +233,28 @@
           <input type="hidden" name="when" id="q-when">
 
           <div class="quiz-step is-on" data-step="1">
-            <h3>В каком районе квартира?</h3>
-            <p class="quiz-hint">Наведите на район на карте или выберите из списка</p>
             <div class="quiz-district">
+              <div class="quiz-district-main">
+                <h3>В каком районе квартира?</h3>
+                <p class="quiz-hint">Наведите на район на карте или выберите из списка</p>
+                <div class="quiz-cards quiz-cards--districts" role="radiogroup" aria-label="Район квартиры">
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Центр"><i class="quiz-pin" aria-hidden="true"></i><span>Центр</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Восток"><i class="quiz-pin" aria-hidden="true"></i><span>Восток</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Ковалево"><i class="quiz-pin" aria-hidden="true"></i><span>Ковалево</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Речица"><i class="quiz-pin" aria-hidden="true"></i><span>Речица</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Дубровка"><i class="quiz-pin" aria-hidden="true"></i><span>Дубровка</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Граевка"><i class="quiz-pin" aria-hidden="true"></i><span>Граевка</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Вулька"><i class="quiz-pin" aria-hidden="true"></i><span>Вулька</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Катин Бор"><i class="quiz-pin" aria-hidden="true"></i><span>Катин Бор</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Березовка"><i class="quiz-pin" aria-hidden="true"></i><span>Березовка</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Задворцы"><i class="quiz-pin" aria-hidden="true"></i><span>Задворцы</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Плоска"><i class="quiz-pin" aria-hidden="true"></i><span>Плоска</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Киевка"><i class="quiz-pin" aria-hidden="true"></i><span>Киевка</span></button>
+                  <button type="button" class="quiz-card quiz-card--pin quiz-card--wide" role="radio" aria-checked="false" data-field="q-district" data-value="Другой район"><i class="quiz-pin" aria-hidden="true"></i><span>Другой район</span></button>
+                </div>
+              </div>
               <div class="quiz-map-stage" data-quiz-map>
                 <div id="quiz-yandex-map" class="quiz-map-yandex"></div>
-              </div>
-              <div class="quiz-cards quiz-cards--districts" role="radiogroup" aria-label="Район квартиры">
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Центр"><i class="quiz-pin" aria-hidden="true"></i><span>Центр</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Восток"><i class="quiz-pin" aria-hidden="true"></i><span>Восток</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Ковалево"><i class="quiz-pin" aria-hidden="true"></i><span>Ковалево</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Речица"><i class="quiz-pin" aria-hidden="true"></i><span>Речица</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Дубровка"><i class="quiz-pin" aria-hidden="true"></i><span>Дубровка</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Граевка"><i class="quiz-pin" aria-hidden="true"></i><span>Граевка</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Вулька"><i class="quiz-pin" aria-hidden="true"></i><span>Вулька</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Катин Бор"><i class="quiz-pin" aria-hidden="true"></i><span>Катин Бор</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Березовка"><i class="quiz-pin" aria-hidden="true"></i><span>Березовка</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Задворцы"><i class="quiz-pin" aria-hidden="true"></i><span>Задворцы</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Плоска"><i class="quiz-pin" aria-hidden="true"></i><span>Плоска</span></button>
-                <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Киевка"><i class="quiz-pin" aria-hidden="true"></i><span>Киевка</span></button>
-                <button type="button" class="quiz-card quiz-card--pin quiz-card--wide" role="radio" aria-checked="false" data-field="q-district" data-value="Другой район"><i class="quiz-pin" aria-hidden="true"></i><span>Другой район</span></button>
               </div>
             </div>
           </div>
@@ -299,7 +294,7 @@
               <button type="button" class="quiz-card" data-field="q-when" data-value="срочно">Как можно скорее</button>
               <button type="button" class="quiz-card" data-field="q-when" data-value="1–3 месяца">1–3 месяца</button>
               <button type="button" class="quiz-card" data-field="q-when" data-value="не тороплю">Не тороплю</button>
-              <button type="button" class="quiz-card quiz-card--wide" data-field="q-when" data-value="уже продаю" data-review="1">Уже продаю, но нет результата</button>
+              <button type="button" class="quiz-card" data-field="q-when" data-value="уже продаю" data-review="1">Уже продаю, но нет результата</button>
             </div>
           </div>
 
@@ -332,7 +327,7 @@
     <div class="wrap">
       <header class="promo-head" data-reveal>
         <p class="kicker kicker--on-light">Как мы продвигаем квартиру</p>
-        <h2 data-split="words">Не просто размещаем. Создаём отдельную рекламную кампанию</h2>
+        <h2><span class="promo-title-line">Не просто размещаем.</span><span class="promo-title-line">Создаём отдельную рекламную кампанию</span></h2>
       </header>
 
       <div class="scheme" data-reveal>
@@ -403,21 +398,71 @@
         <p class="kicker kicker--on-light">Управляем продажей</p>
         <div class="manage-grid">
           <article class="manage-card">
-            <h3>Персональный риэлтер</h3>
-            <p>Контролирует обращения, показы и переговоры.</p>
+            <div class="manage-card-copy">
+              <h3>Персональный риэлтер</h3>
+              <p>Контролирует обращения, показы и переговоры.</p>
+            </div>
+            <div class="manage-visual manage-visual--realtors">
+              <div class="manage-realtor">
+                <img src="imgs/team/marina_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
+              </div>
+              <div class="manage-realtor">
+                <img src="imgs/team/vikt_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
+              </div>
+              <div class="manage-realtor">
+                <img src="imgs/team/daira_realtor.webp" alt="" width="480" height="640" loading="lazy" decoding="async">
+              </div>
+            </div>
           </article>
           <article class="manage-card">
-            <h3>Отчётность</h3>
-            <p>Вы понимаете, что происходит с продажей.</p>
+            <div class="manage-card-copy">
+              <h3>Отчётность</h3>
+              <p>Вы понимаете, что происходит с продажей.</p>
+            </div>
+            <div class="manage-visual manage-visual--chart" aria-hidden="true">
+              <svg class="manage-chart" viewBox="0 0 300 168" role="presentation">
+                <defs>
+                  <linearGradient id="manage-chart-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c4a265" stop-opacity="0.34"></stop>
+                    <stop offset="100%" stop-color="#c4a265" stop-opacity="0"></stop>
+                  </linearGradient>
+                </defs>
+                <text class="manage-chart-label manage-chart-label--y" transform="rotate(-90)" x="-86" y="12">Обращения</text>
+                <g class="manage-chart-plot">
+                  <line class="manage-chart-axis-line" x1="48" y1="20" x2="48" y2="124"></line>
+                  <line class="manage-chart-axis-line" x1="48" y1="124" x2="284" y2="124"></line>
+                  <line class="manage-chart-grid-line" x1="48" y1="90" x2="284" y2="90"></line>
+                  <line class="manage-chart-grid-line" x1="48" y1="56" x2="284" y2="56"></line>
+                  <line class="manage-chart-grid-line" x1="48" y1="22" x2="284" y2="22"></line>
+                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="128">0</text>
+                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="94">10</text>
+                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="60">20</text>
+                  <text class="manage-chart-tick manage-chart-tick--y" x="42" y="26">30</text>
+                  <text class="manage-chart-tick manage-chart-tick--x" x="74" y="140">1</text>
+                  <text class="manage-chart-tick manage-chart-tick--x" x="130" y="140">2</text>
+                  <text class="manage-chart-tick manage-chart-tick--x" x="186" y="140">3</text>
+                  <text class="manage-chart-tick manage-chart-tick--x" x="242" y="140">4</text>
+                  <text class="manage-chart-label manage-chart-label--x" x="166" y="156">Недели</text>
+                  <rect class="manage-chart-bar manage-chart-bar--1" x="58" y="97" width="32" height="27" rx="3"></rect>
+                  <rect class="manage-chart-bar manage-chart-bar--2" x="114" y="76" width="32" height="48" rx="3"></rect>
+                  <rect class="manage-chart-bar manage-chart-bar--3" x="170" y="49" width="32" height="75" rx="3"></rect>
+                  <rect class="manage-chart-bar manage-chart-bar--4" x="226" y="22" width="32" height="102" rx="3"></rect>
+                  <path class="manage-chart-area" d="M74 97 L130 76 L186 49 L242 22 L242 124 L74 124 Z"></path>
+                  <polyline class="manage-chart-line" points="74,97 130,76 186,49 242,22"></polyline>
+                  <circle class="manage-chart-dot" cx="74" cy="97" r="4"></circle>
+                  <circle class="manage-chart-dot" cx="130" cy="76" r="4"></circle>
+                  <circle class="manage-chart-dot" cx="186" cy="49" r="4"></circle>
+                  <circle class="manage-chart-dot manage-chart-dot--last" cx="242" cy="22" r="5"></circle>
+                </g>
+              </svg>
+            </div>
           </article>
           <p class="manage-stat">
-            <b><i data-count="30">30</i>%</b>
-            <span>в среднем быстрее обычного договора</span>
+            <span class="manage-stat-copy">В среднем на <b><i data-count="30">30</i>%</b> быстрее обычного договора</span>
           </p>
         </div>
       </div>
 
-      <p class="section-coda">Одна квартира. Все каналы. Одна кампания.</p>
     </div>
   </section>
 
@@ -427,7 +472,7 @@
         <p class="kicker">Реальные сделки</p>
         <h2>
           <span class="results-soft">Не обещания.</span>
-          <span class="results-strong" data-split="words">Результаты РИАЛИТИ</span>
+          <span class="results-strong">Результаты РИАЛИТИ</span>
         </h2>
       </header>
     </div>
@@ -438,9 +483,7 @@
           <img src="imgs/mostexphome.webp" alt="Объект, проданный за один день" width="1200" height="1600" decoding="async" data-parallax-img="54">
         </figure>
         <div class="ledger-copy">
-          <p class="ledger-cat">Скорость</p>
           <p class="ledger-stat"><b data-count="1">1</b> <i>день</i></p>
-          <h3>от просмотра до сделки</h3>
           <p>Покупатель посмотрел квартиру, а уже на следующий<br>день сделка была оформлена.</p>
         </div>
       </article>
@@ -450,9 +493,7 @@
           <img src="imgs/mostexp.webp" alt="Интерьер объекта с самым дорогим квадратным метром" width="1600" height="1200" decoding="async" data-parallax-img="48">
         </figure>
         <div class="ledger-copy">
-          <p class="ledger-cat">Цена</p>
           <p class="ledger-stat ledger-stat--text">Самый дорогой м²</p>
-          <h3>умеем работать с высокой стоимостью</h3>
           <p>В июле 2026 РИАЛИТИ продала квартиру с самым дорогим<br>квадратным метром и самый дорогой коммерческий объект месяца.</p>
         </div>
       </article>
@@ -477,8 +518,7 @@
           </div>
         </div>
         <div class="ledger-copy">
-          <p class="ledger-cat">Сложные сделки</p>
-          <h3>четыре собственника и три встречные покупки</h3>
+          <p class="ledger-stat ledger-stat--text">Сложная сделка</p>
           <p>Продали дом четырёх собственников и одновременно организовали покупку трёх квартир взамен.</p>
         </div>
       </article>
@@ -537,7 +577,7 @@
 
       <div class="slider-container" data-reveal>
         <div class="voices-reel" id="voices-slider">
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">E A</b>
               <div class="voice-source">
@@ -548,7 +588,7 @@
             <p class="voice-quote">Доброжелательные и профессиональные сотрудники! Помогли в сложной цепочке. Ребята действительно занимаются своим делом. Относилась к агентствам скептически по опыту знакомых. Теперь могу всем сказать: вы просто обращались не в те агентства.</p>
           </article>
 
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">Arina K</b>
               <div class="voice-source">
@@ -559,7 +599,7 @@
             <p class="voice-quote">Добрый день. Хочу выразить благодарность агентству недвижимости РИАЛИТИ специалисты которого помогли мне успешно продать квартиру. Процесс продажи прошел гладко и без лишних хлопот благодаря их профессионализму, внимательному отношению к деталям и оперативности. Они были всегда на связи, готовы ответить на любые вопросы и помочь в решении любых возникающих проблем. Благодаря слаженным усилиям сделка была закрыта быстро и по хорошей цене. Я очень довольна результатом и рекомендую всем обращаться только к Андрею Юрьевичу (директору и риэлтеру агентства), кто ищет надежного специалиста в сфере недвижимости. Спасибо за отличную работу!</p>
           </article>
 
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">Darwin 1</b>
               <div class="voice-source">
@@ -570,7 +610,7 @@
             <p class="voice-quote">Хочу выразить благодарность агентству Риалити, лично Андрею Юрьевичу. Покупал дом, очень долго искал и ничего не мог найти. И только в этом агентстве мне нашли дом, который устроил меня по всем параметрам. Сделали все очень качественно. Прислушались ко всем моим требованиям,сделка прошла быстро и без вопросов. Сейчас всем своим знакомым, кому надо помочь продать или купить недвижимость,рекомендую это агентство. Не контора как некоторые агенства.Если когда нибудь решу продавать дом, однозначно обращусь к ним</p>
           </article>
 
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">Tanja S.</b>
               <div class="voice-source">
@@ -581,7 +621,7 @@
             <p class="voice-quote">Обратилась в агентство в связи с переездом из РФ для приобретения недвижимости в Бресте. Большое спасибо Яковлеву Андрею Юрьевичу за решение юридических вопросов и общую организацию сделки. Отдельное спасибо риэлтору Антоненко Татьяне Викторовне за то как отстаивает интересы клиента, за грамотную работу и чуткое отношение. В итоге совершенной сделки все мои надежды и желания сбылись. Всем рекомендую.</p>
           </article>
 
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">Ольга Чеботарь</b>
               <div class="voice-source">
@@ -592,7 +632,7 @@
             <p class="voice-quote">Хотим выразить благодарность Андрею Юрьевичу из агентства недвижимости «РИАЛИТИ» за проделанную работу по покупке квартиры! Чувствовался профессиональный подход в каждом вопросе, были оговорены все юридические моменты. Процесс покупки был очень эмоциональный, сделка прошла быстро и качественно, благодаря поддержке, вниманию и юридической грамотности Андрея Юрьевича. Обязательно будем рекомендовать агентство недвижимости «РИАЛИТИ» друзьям и знакомым. Спасибо!</p>
           </article>
 
-          <article class="voice" data-tilt="9">
+          <article class="voice">
             <header class="voice-head">
               <b class="voice-name">Генрих Венидиктович</b>
               <div class="voice-source">
@@ -630,11 +670,14 @@
     <div class="wrap">
       <header class="process-head" data-reveal>
         <p class="kicker">Как проходит продажа</p>
-        <h2 data-split="words">От оценки до получения денег — всё берём на себя</h2>
+        <h2>
+          <span class="process-title-line">От оценки до получения денег</span>
+          <span class="process-title-line">— всё берём на себя</span>
+        </h2>
       </header>
 
       <div class="process-board" data-reveal>
-        <article class="process-stage" aria-live="polite" data-tilt="5">
+        <article class="process-stage" aria-live="polite">
           <span class="process-stage-glow" aria-hidden="true"></span>
           <svg class="process-ring" viewBox="0 0 120 120" aria-hidden="true">
             <circle class="process-ring-track" cx="60" cy="60" r="52"></circle>
@@ -760,32 +803,44 @@
         </figure>
         <ul class="trust-cast">
           <li>
-            <img src="imgs/team/ceo.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/ceo.webp" alt="" width="480" height="640">
+            </div>
             <b>Андрей Юрьевич</b>
             <span>Директор, риэлтор</span>
           </li>
           <li>
-            <img src="imgs/team/boris_Realtor.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/boris_Realtor.webp" alt="" width="480" height="640">
+            </div>
             <b>Борис</b>
             <span>Риэлтор</span>
           </li>
           <li>
-            <img src="imgs/team/vikt_realtor.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/vikt_realtor.webp" alt="" width="480" height="640">
+            </div>
             <b>Виктория</b>
             <span>Риэлтор</span>
           </li>
           <li>
-            <img src="imgs/team/daira_realtor.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/daira_realtor.webp" alt="" width="480" height="640">
+            </div>
             <b>Дарья</b>
             <span>Риэлтор</span>
           </li>
           <li>
-            <img src="imgs/team/lud_realtor.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/lud_realtor.webp" alt="" width="480" height="640">
+            </div>
             <b>Людмила</b>
             <span>Риэлтор</span>
           </li>
           <li>
-            <img src="imgs/team/marina_realtor.webp" alt="" width="480" height="640">
+            <div class="trust-cast-photo">
+              <img src="imgs/team/marina_realtor.webp" alt="" width="480" height="640">
+            </div>
             <b>Марина</b>
             <span>Риэлтор</span>
           </li>
@@ -946,11 +1001,15 @@
     <div class="wrap guarantee-inner" data-reveal>
       <header class="guarantee-copy">
         <p class="kicker">Без риска для вас</p>
-        <h2 data-split="words">Эксклюзив увеличивает ответственность РИАЛИТИ, а не ваш риск</h2>
+        <h2>
+          <span class="guarantee-title-line">Эксклюзив увеличивает</span>
+          <span class="guarantee-title-line">ответственность РИАЛИТИ,</span>
+          <span class="guarantee-title-line">а не ваш риск</span>
+        </h2>
         <p class="guarantee-pay">Оплата только после сделки</p>
       </header>
       <div class="guarantee-cta">
-        <a class="btn btn-ink" href="#quiz" data-magnetic>Обсудить продажу с риэлтером</a>
+        <a class="btn btn-ink" href="#quiz">Обсудить продажу с риэлтером</a>
         <p class="guarantee-note">Без обязательств заключать договор после консультации.</p>
       </div>
     </div>
@@ -1011,14 +1070,6 @@
   </section>
 
   <section class="contacts" id="form">
-    <div class="contacts-hero">
-      <div class="contacts-hero-bg" data-parallax="team" aria-hidden="true"></div>
-      <div class="contacts-hero-scrim" aria-hidden="true"></div>
-      <div class="wrap contacts-hero-copy">
-        <p class="kicker">Контакты</p>
-      </div>
-    </div>
-
     <div class="wrap contacts-grid">
       <div class="contacts-copy" data-reveal>
         <p class="kicker kicker--on-light">Главный следующий шаг</p>
@@ -1033,7 +1084,7 @@
         <ul class="contacts-meta">
           <li>
             <span class="contacts-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M6.5 4.5h3l1.2 3.2-1.8 1.1a12 12 0 0 0 6.3 6.3l1.1-1.8 3.2 1.2v3c0 .8-.7 1.5-1.5 1.4C9.6 17.4 4.6 12.4 3.1 6A1.5 1.5 0 0 1 4.5 4.5h2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.954l-1.678 1.339a11.042 11.042 0 0 0 5.516 5.516l1.339-1.678a1.875 1.875 0 0 1 1.954-.694l4.423 1.105a1.875 1.875 0 0 1 1.42 1.819V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"/></svg>
             </span>
             <div>
               <span>Телефон</span>
@@ -1071,7 +1122,7 @@
       </div>
 
       <aside class="contacts-aside">
-        <div class="contacts-card" data-reveal data-tilt="7">
+        <div class="contacts-card" data-reveal>
           <figure class="contacts-person">
             <img src="imgs/team/ceo.webp" alt="Андрей Юрьевич, директор и риэлтер агентства РИАЛИТИ" width="96" height="96">
             <figcaption>
@@ -1167,8 +1218,8 @@
 
   <a class="call-fab" href="tel:+375333234646" aria-label="Позвонить +375 (33) 323-46-46">
     <span class="call-fab-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M6.5 4.5h3l1.2 3.2-1.8 1.1a12 12 0 0 0 6.3 6.3l1.1-1.8 3.2 1.2v3c0 .8-.7 1.5-1.5 1.4C9.6 17.4 4.6 12.4 3.1 6A1.5 1.5 0 0 1 4.5 4.5h2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.954l-1.678 1.339a11.042 11.042 0 0 0 5.516 5.516l1.339-1.678a1.875 1.875 0 0 1 1.954-.694l4.423 1.105a1.875 1.875 0 0 1 1.42 1.819V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"/>
       </svg>
     </span>
     <span class="call-fab-copy">

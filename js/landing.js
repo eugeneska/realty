@@ -569,6 +569,9 @@
     function initYandexMap() {
       var el = document.getElementById("quiz-yandex-map");
       if (!mapStage || yandexMap || !window.ymaps || !el) return;
+      if (!mapStage.offsetHeight) {
+        mapStage.style.minHeight = "420px";
+      }
 
       yandexMap = new window.ymaps.Map(el, {
         center: [52.0938, 23.6852],
@@ -593,20 +596,23 @@
 
       names.forEach(function (name) {
         var fallback = DISTRICT_COORDS[name];
+        placeDistrict(name, fallback);
         window.ymaps.geocode(DISTRICT_QUERY[name], {
           results: 1,
           boundedBy: [[52.03, 23.58], [52.15, 23.84]],
           strictBounds: true
         }).then(function (res) {
           var found = res.geoObjects.get(0);
-          var coords = found ? found.geometry.getCoordinates() : fallback;
-          placeDistrict(name, nearStreet(coords, fallback) ? coords : fallback);
-          doneOne();
+          if (!found || !districtGeo[name]) return;
+          var coords = found.geometry.getCoordinates();
+          if (!nearStreet(coords, fallback)) return;
+          districtGeo[name].placemark.geometry.setCoordinates(coords);
         }, function () {
-          placeDistrict(name, fallback);
-          doneOne();
-        });
+          /* keep fallback coords */
+        }).then(doneOne, doneOne);
       });
+
+      window.setTimeout(fitDistricts, 80);
 
       if (window.ResizeObserver) {
         new window.ResizeObserver(function () {
@@ -664,6 +670,7 @@
     });
 
     loadYandexMaps();
+    show(1);
 
     if (back) {
       back.addEventListener("click", function () {
@@ -780,44 +787,6 @@
         quotes.forEach(paintQuote);
       }, 120);
     });
-  }
-
-  var trust = document.querySelector(".trust");
-  if (trust) {
-    var tiltRaf = 0;
-    var tx = 0;
-    var ty = 0;
-    var trustMx = 0;
-    var trustMy = 0;
-    var trustPointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-
-    function applyTilt() {
-      tiltRaf = 0;
-      tx += (trustMx - tx) * 0.12;
-      ty += (trustMy - ty) * 0.12;
-      trust.style.setProperty("--trust-x", (tx * 100).toFixed(2) + "%");
-      trust.style.setProperty("--trust-y", (ty * 100).toFixed(2) + "%");
-    }
-
-    function onTrustMove(e) {
-      var box = trust.getBoundingClientRect();
-      if (!box.width || !box.height) return;
-      trustMx = (e.clientX - box.left) / box.width;
-      trustMy = (e.clientY - box.top) / box.height;
-      if (!tiltRaf) tiltRaf = window.requestAnimationFrame(applyTilt);
-    }
-
-    function resetTilt() {
-      trustMx = 0.78;
-      trustMy = 0.28;
-      if (!tiltRaf) tiltRaf = window.requestAnimationFrame(applyTilt);
-    }
-
-    resetTilt();
-    if (trustPointer.matches && !reduce.matches) {
-      trust.addEventListener("pointermove", onTrustMove);
-      trust.addEventListener("pointerleave", resetTilt);
-    }
   }
 
   var fear = document.querySelector(".fear");
@@ -999,148 +968,6 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !sheet.hidden) closeSheet();
     });
-  }
-
-  var hero = document.getElementById("hero");
-  var orbA = hero && hero.querySelector(".hero-orb--a");
-  var orbB = hero && hero.querySelector(".hero-orb--b");
-  var heroCopy = hero && hero.querySelector(".hero-copy");
-  if (hero && fine.matches && !reduce.matches) {
-    hero.addEventListener("pointermove", function (e) {
-      var box = hero.getBoundingClientRect();
-      if (!box.width || !box.height) return;
-      var nx = (e.clientX - box.left) / box.width - 0.5;
-      var ny = (e.clientY - box.top) / box.height - 0.5;
-      hero.style.setProperty("--spot-x", ((nx + 0.5) * 100).toFixed(2) + "%");
-      hero.style.setProperty("--spot-y", ((ny + 0.5) * 100).toFixed(2) + "%");
-      if (orbA) {
-        orbA.style.setProperty("--mx", (nx * 48).toFixed(1) + "px");
-        orbA.style.setProperty("--my", (ny * 32).toFixed(1) + "px");
-      }
-      if (orbB) {
-        orbB.style.setProperty("--mx", (nx * -28).toFixed(1) + "px");
-        orbB.style.setProperty("--my", (ny * 22).toFixed(1) + "px");
-      }
-      if (heroCopy) {
-        heroCopy.style.setProperty("--mx", (nx * 14).toFixed(1) + "px");
-        heroCopy.style.setProperty("--my", (ny * 10).toFixed(1) + "px");
-      }
-    });
-  }
-
-  if (fine.matches && !reduce.matches) {
-    document.querySelectorAll("[data-tilt]").forEach(function (el) {
-      var max = parseFloat(el.getAttribute("data-tilt")) || 6;
-      el.classList.add("has-tilt");
-      el.addEventListener("pointermove", function (e) {
-        var r = el.getBoundingClientRect();
-        if (!r.width || !r.height) return;
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.setProperty("--rx", (-py * max * 2).toFixed(2) + "deg");
-        el.style.setProperty("--ry", (px * max * 2).toFixed(2) + "deg");
-      });
-      el.addEventListener("pointerleave", function () {
-        el.style.setProperty("--rx", "0deg");
-        el.style.setProperty("--ry", "0deg");
-      });
-    });
-
-    var why = document.querySelector(".why");
-    if (why) {
-      why.addEventListener("pointermove", function (e) {
-        var r = why.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        why.style.setProperty("--why-x", (px * 42).toFixed(1) + "px");
-        why.style.setProperty("--why-y", (py * 30).toFixed(1) + "px");
-      });
-    }
-
-    var mouseRoot = document.querySelector("[data-mouse-root]");
-    if (mouseRoot) {
-      var layers = mouseRoot.querySelectorAll("[data-depth]");
-      mouseRoot.addEventListener("pointermove", function (e) {
-        var r = mouseRoot.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        layers.forEach(function (layer) {
-          var d = parseFloat(layer.getAttribute("data-depth")) || 8;
-          layer.style.setProperty("--mx", (px * d).toFixed(1) + "px");
-          layer.style.setProperty("--my", (py * d).toFixed(1) + "px");
-        });
-      });
-      mouseRoot.addEventListener("pointerleave", function () {
-        layers.forEach(function (layer) {
-          layer.style.setProperty("--mx", "0px");
-          layer.style.setProperty("--my", "0px");
-        });
-      });
-    }
-
-    document.querySelectorAll(".btn").forEach(function (btn) {
-      if (btn.hasAttribute("data-magnetic")) return;
-      btn.addEventListener("pointermove", function (e) {
-        var r = btn.getBoundingClientRect();
-        var x = Math.max(-6, Math.min(6, (e.clientX - r.left - r.width / 2) / 6));
-        var y = Math.max(-4, Math.min(4, (e.clientY - r.top - r.height / 2) / 6));
-        btn.style.transform = "translate3d(" + x.toFixed(1) + "px," + (y - 1).toFixed(1) + "px,0)";
-      });
-      btn.addEventListener("pointerleave", function () {
-        btn.style.transform = "";
-      });
-    });
-
-    document.querySelectorAll("[data-magnetic]").forEach(function (el) {
-      var cx = 0;
-      var cy = 0;
-      var tx = 0;
-      var ty = 0;
-      var raf = 0;
-      function loop() {
-        cx += (tx - cx) * 0.16;
-        cy += (ty - cy) * 0.16;
-        el.style.transform = "translate3d(" + cx.toFixed(2) + "px," + cy.toFixed(2) + "px,0)";
-        if (Math.abs(tx - cx) > 0.08 || Math.abs(ty - cy) > 0.08 || tx || ty) {
-          raf = window.requestAnimationFrame(loop);
-        } else {
-          el.style.transform = "";
-          raf = 0;
-        }
-      }
-      el.addEventListener("pointermove", function (e) {
-        var r = el.getBoundingClientRect();
-        tx = Math.max(-14, Math.min(14, (e.clientX - r.left - r.width / 2) * 0.28));
-        ty = Math.max(-10, Math.min(10, (e.clientY - r.top - r.height / 2) * 0.28));
-        if (!raf) raf = window.requestAnimationFrame(loop);
-      });
-      el.addEventListener("pointerleave", function () {
-        tx = 0;
-        ty = 0;
-        if (!raf) raf = window.requestAnimationFrame(loop);
-      });
-    });
-
-    function bindSpot(el) {
-      if (!el || el.classList.contains("fx-spot")) return;
-      el.classList.add("fx-spot");
-      var glow = document.createElement("span");
-      glow.className = "fx-spot-glow";
-      glow.setAttribute("aria-hidden", "true");
-      el.appendChild(glow);
-      el.addEventListener("pointermove", function (e) {
-        var r = el.getBoundingClientRect();
-        if (!r.width || !r.height) return;
-        el.style.setProperty("--lx", ((e.clientX - r.left) / r.width * 100).toFixed(2) + "%");
-        el.style.setProperty("--ly", ((e.clientY - r.top) / r.height * 100).toFixed(2) + "%");
-        el.classList.add("is-spot");
-      });
-      el.addEventListener("pointerleave", function () {
-        el.classList.remove("is-spot");
-      });
-    }
-
-    document.querySelectorAll(".versus-row, .pledge, .voice, .trust-facts li, .contacts-card, .channel-copy").forEach(bindSpot);
   }
 
   if (!reduce.matches) {
