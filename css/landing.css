@@ -6031,10 +6031,11 @@ button:focus-visible {
   z-index: 80;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0;
   width: 60px;
   height: 60px;
-  padding: 0 9px;
+  padding: 0;
   overflow: hidden;
   border: 1px solid var(--color-gold-soft);
   border-radius: 999px;
@@ -6047,17 +6048,17 @@ button:focus-visible {
 }
 
 .call-fab-icon {
-  flex: 0 0 42px;
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 26px;
+  height: 26px;
 }
 
 .call-fab-icon svg {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
 }
 
 .call-fab-copy {
@@ -6071,6 +6072,14 @@ button:focus-visible {
   white-space: nowrap;
   pointer-events: none;
   transition: max-width 420ms var(--ease-luxe), margin 420ms var(--ease-luxe), opacity 280ms ease;
+}
+
+.call-fab:not(.is-open):not(:hover):not(:focus-visible) .call-fab-copy {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
 }
 
 .call-fab-copy b {
@@ -6094,7 +6103,8 @@ button:focus-visible {
 .call-fab:hover,
 .call-fab:focus-visible {
   width: 276px;
-  padding-right: 20px;
+  justify-content: flex-start;
+  padding: 0 20px 0 14px;
   background: linear-gradient(180deg, #f0e2bb 0%, #c4a265 100%);
   color: var(--color-night-deep);
   border-color: var(--color-gold-soft);
@@ -6155,7 +6165,8 @@ button:focus-visible {
   .call-fab:hover,
   .call-fab:focus-visible {
     width: 276px;
-    padding-right: 20px;
+    justify-content: flex-start;
+    padding: 0 20px 0 14px;
     background: linear-gradient(180deg, #f0e2bb 0%, #c4a265 100%);
     color: var(--color-night-deep);
     border-color: var(--color-gold-soft);
@@ -6176,8 +6187,8 @@ button:focus-visible {
   }
 
   .call-fab-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
   }
 
   .call-fab:hover:not(.is-open),
