@@ -254,7 +254,7 @@
     window.addEventListener("scroll", syncCursorTone, { passive: true });
 
     document.addEventListener("pointerover", function (e) {
-      var hot = e.target.closest("a, button, .btn, .call-fab, .versus-row, .quiz-card, .channel, .slider-btn, .voice, .voice-more-btn, .voices-rating--link, .process-node, .fear-see li, .faq-list summary, .pledge, .trust-cast li");
+      var hot = e.target.closest("a, button, .btn, .call-fab, .versus-row, .quiz-card, .channel, .slider-btn, .voice, .voice-more-btn, .process-node, .fear-see li, .faq-list summary, .pledge, .trust-cast li");
       cursor.classList.toggle("is-hot", Boolean(hot));
     });
 

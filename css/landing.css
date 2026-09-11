@@ -717,6 +717,10 @@ button:focus-visible {
   white-space: nowrap;
 }
 
+.br-mobile {
+  display: none;
+}
+
 .hero-lead {
   margin-bottom: 28px;
   max-width: 38ch;
@@ -2379,10 +2383,6 @@ button:focus-visible {
 }
 
 .voices-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) auto;
-  align-items: end;
-  gap: 28px 40px;
   margin-bottom: 8px;
   max-width: none;
 }
@@ -2392,93 +2392,11 @@ button:focus-visible {
   line-height: 1.14;
 }
 
-.voices-ratings {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.voices-rating {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 10px;
-  row-gap: 2px;
-  align-items: center;
-  margin: 0;
-  padding: 10px 14px;
-  min-height: 56px;
-  border: 1px solid var(--color-border);
-  background: var(--color-white);
-  color: var(--color-muted-foreground);
-  text-decoration: none;
-}
-
-.voices-rating svg,
-.voices-rating img {
-  grid-row: 1 / span 2;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.voices-rating-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-}
-
-.voices-rating b {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-.voices-rating-meta {
-  grid-column: 2;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.voices-rating--link {
-  cursor: pointer;
-  transition: border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
-}
-
-.voices-rating--link:hover,
-.voices-rating--link:focus-visible {
-  border-color: var(--color-primary);
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(44, 28, 76, 0.1);
-}
-
-.voices-rating--link:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-.voices-rating .stars,
 .voice-source .stars {
   color: #c9a227;
   letter-spacing: 0.08em;
   font-size: 13px;
   line-height: 1;
-}
-
-.stars--svg {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
-  letter-spacing: 0;
-}
-
-.stars--svg svg {
-  display: block;
-  width: 13px;
-  height: 13px;
 }
 
 .slider-container {
@@ -2740,6 +2658,7 @@ button:focus-visible {
 
 .process-head {
   max-width: 740px;
+  min-width: 0;
   margin-bottom: 28px;
 }
 
@@ -2747,6 +2666,7 @@ button:focus-visible {
   display: grid;
   gap: 0.08em;
   margin: 0;
+  min-width: 0;
   line-height: 1.08;
 }
 
@@ -2754,7 +2674,10 @@ button:focus-visible {
   display: block;
   margin: 0;
   padding: 0;
+  min-width: 0;
+  max-width: 100%;
   line-height: 1.08;
+  overflow-wrap: break-word;
 }
 
 .process-title-dash {
@@ -5468,6 +5391,10 @@ button:focus-visible {
     font-size: var(--type-h1-mobile);
   }
 
+  .br-mobile {
+    display: inline;
+  }
+
   :is(
     .why-head,
     .quiz-head,
@@ -5589,13 +5516,15 @@ button:focus-visible {
   .quiz-coda.section-coda,
   .results-coda.section-coda {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 20px;
+    text-align: center;
   }
 
   .quiz-coda p,
   .results-coda p {
     max-width: none;
+    text-align: center;
   }
 
   .quiz-coda .btn,
@@ -5731,16 +5660,24 @@ button:focus-visible {
     min-height: 100svh;
     padding: 64px 0 48px;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   .process-head {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
+    max-width: 100%;
   }
 
   .process-board {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .process-stage {
+    aspect-ratio: 16 / 10;
+    max-height: 34svh;
   }
 
   .process-stage-overlay {
@@ -5753,12 +5690,19 @@ button:focus-visible {
 
   .process-track {
     padding-left: 16px;
+    min-width: 0;
   }
 
   .process-node {
-    min-height: 48px;
+    min-height: 44px;
     padding: 8px 4px 8px 20px;
     gap: 8px;
+  }
+
+  .process-node-copy,
+  .process-cap {
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   .process-foot {
@@ -6050,10 +5994,6 @@ button:focus-visible {
   .footer-credit-wrap {
     justify-self: center;
     text-align: center;
-  }
-
-  .voices-head {
-    grid-template-columns: 1fr;
   }
 
   .voices-reel {
