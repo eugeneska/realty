@@ -269,10 +269,14 @@
     var stageNum = process.querySelector(".process-stage-num");
     var stageTitle = process.querySelector(".process-stage-title");
     var stageCap = process.querySelector(".process-stage-cap");
+    var processTrack = process.querySelector(".process-track");
+    var processMobile = window.matchMedia("(max-width: 980px)");
     var processImages = {};
     var active = 0;
     var primed = false;
     var processScrollRaf = 0;
+    var processSwipeX = 0;
+    var processSwipeY = 0;
 
     nodes.forEach(function (node) {
       var src = node.getAttribute("data-image");
@@ -283,11 +287,11 @@
       processImages[src] = img;
     });
 
-    function playProcessSwap() {
+    function playProcessSwap(direction) {
       if (!primed || !stage || reduce.matches) return;
-      stage.classList.remove("is-swap");
+      stage.classList.remove("is-swap", "is-swap--next", "is-swap--prev");
       void stage.offsetWidth;
-      stage.classList.add("is-swap");
+      stage.classList.add("is-swap", direction === "prev" ? "is-swap--prev" : "is-swap--next");
     }
 
     function sameProcessImage(image) {
@@ -296,13 +300,13 @@
       return current === image || current.endsWith("/" + image) || stagePhoto.src.endsWith("/" + image);
     }
 
-    function setProcessPhoto(image, alt) {
+    function setProcessPhoto(image, alt, direction) {
       if (!stagePhoto || !image || sameProcessImage(image)) return;
 
       var applyPhoto = function () {
         stagePhoto.src = image;
         if (alt) stagePhoto.alt = alt;
-        playProcessSwap();
+        playProcessSwap(direction);
       };
 
       var cached = processImages[image];
@@ -327,6 +331,7 @@
       if (!nodes.length) return;
       var next = Math.max(0, Math.min(nodes.length - 1, index));
       if (primed && next === active) return;
+      var direction = next < active ? "prev" : "next";
       active = next;
       var node = nodes[active];
       nodes.forEach(function (el, i) {
@@ -338,11 +343,20 @@
       if (stageNum) stageNum.textContent = node.getAttribute("data-num") || "";
       if (stageTitle) stageTitle.textContent = node.getAttribute("data-title") || "";
       if (stageCap) stageCap.textContent = node.getAttribute("data-cap") || "";
-      setProcessPhoto(node.getAttribute("data-image"), node.getAttribute("data-alt") || "");
+      setProcessPhoto(node.getAttribute("data-image"), node.getAttribute("data-alt") || "", direction);
+      if (processTrack && processMobile.matches) {
+        var item = node.parentElement;
+        var left = item.offsetLeft + item.offsetWidth / 2 - processTrack.clientWidth / 2;
+        processTrack.scrollTo({
+          left: Math.max(0, left),
+          behavior: reduce.matches ? "auto" : "smooth"
+        });
+      }
       primed = true;
     }
 
     function stepFromScroll() {
+      if (processMobile.matches) return;
       var rect = process.getBoundingClientRect();
       var range = Math.max(1, process.offsetHeight - window.innerHeight);
       var passed = Math.min(range, Math.max(0, -rect.top));
@@ -377,6 +391,26 @@
         nodes[active].focus();
       }
     });
+
+    function bindProcessSwipe(element) {
+      if (!element) return;
+      element.addEventListener("touchstart", function (e) {
+        if (!e.touches.length) return;
+        processSwipeX = e.touches[0].clientX;
+        processSwipeY = e.touches[0].clientY;
+      }, { passive: true });
+
+      element.addEventListener("touchend", function (e) {
+        if (!processMobile.matches || !e.changedTouches.length) return;
+        var deltaX = e.changedTouches[0].clientX - processSwipeX;
+        var deltaY = e.changedTouches[0].clientY - processSwipeY;
+        if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        setProcessStep(active + (deltaX < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+
+    bindProcessSwipe(stage);
+    bindProcessSwipe(processTrack);
 
     if (reduce.matches) {
       setProcessStep(0);
