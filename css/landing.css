@@ -4225,6 +4225,23 @@ button:focus-visible {
   color: #b42318;
 }
 
+.form-trap {
+  position: fixed !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.form-status[data-state="error"] {
+  color: #b42318;
+}
+
+.quiz-done[data-state="error"] {
+  color: #ffb4ab;
+}
+
 .contacts-form .btn {
   width: 100%;
 }

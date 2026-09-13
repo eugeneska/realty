@@ -464,6 +464,58 @@
     });
   }
 
+  function sendLead(form, status, successMessage) {
+    var button = form.querySelector('[type="submit"]');
+    var originalText = button ? button.textContent : "";
+    var payload = {};
+
+    new FormData(form).forEach(function (value, key) {
+      payload[key] = value;
+    });
+    payload.page = window.location.href;
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Отправляем…";
+    }
+    if (status) {
+      status.hidden = false;
+      status.dataset.state = "sending";
+      status.textContent = "Отправляем заявку…";
+    }
+
+    return fetch(form.action, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.json().catch(function () {
+        return { ok: false, message: "Сервер вернул некорректный ответ." };
+      }).then(function (data) {
+        if (!response.ok || !data.ok) {
+          throw new Error(data.message || "Не удалось отправить заявку.");
+        }
+        if (status) {
+          status.dataset.state = "success";
+          status.textContent = successMessage;
+        }
+        if (button) button.textContent = "Отправлено";
+        return true;
+      });
+    }).catch(function (error) {
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+      if (status) {
+        status.hidden = false;
+        status.dataset.state = "error";
+        status.textContent = error.message || "Не удалось отправить заявку. Попробуйте ещё раз.";
+      }
+      return false;
+    });
+  }
+
   var form = document.getElementById("quiz-form");
   if (form) {
     var steps = form.querySelectorAll(".quiz-step");
@@ -757,9 +809,10 @@
 
     var submit = form.querySelector(".quiz-submit");
     if (submit && done) {
-      submit.addEventListener("click", function () {
-        done.hidden = false;
-        submit.disabled = true;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        sendLead(form, done, "Заявка принята, риэлтер подготовит предварительную оценку");
       });
     }
   }
@@ -1016,8 +1069,13 @@
         if (first) first.focus();
         return;
       }
-      contactsForm.classList.add("is-sent");
-      if (contactsDone) contactsDone.hidden = false;
+      sendLead(
+        contactsForm,
+        contactsDone,
+        "Заявка принята, риэлтер подготовит предварительную оценку"
+      ).then(function (sent) {
+        if (sent) contactsForm.classList.add("is-sent");
+      });
     });
   }
 
@@ -1043,6 +1101,20 @@
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !sheet.hidden) closeSheet();
+    });
+  }
+
+  var checklistForm = document.getElementById("checklist-form");
+  var checklistStatus = document.getElementById("checklist-status");
+  if (checklistForm) {
+    checklistForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!checklistForm.reportValidity()) return;
+      sendLead(
+        checklistForm,
+        checklistStatus,
+        "Запрос принят. Мы свяжемся с вами и отправим чек-лист."
+      );
     });
   }
 
