@@ -206,9 +206,6 @@
     document.documentElement.classList.add("has-cursor");
     var cursorX = window.innerWidth / 2;
     var cursorY = window.innerHeight / 2;
-    var cursorDrawX = cursorX;
-    var cursorDrawY = cursorY;
-    var cursorRaf = 0;
     var gold = document.querySelector(".guarantee");
 
     function overGold() {
@@ -221,33 +218,11 @@
       cursor.classList.toggle("is-ink", overGold());
     }
 
-    var trailEls = cursor.querySelectorAll(".cursor-trail");
-    var trails = Array.prototype.map.call(trailEls, function () {
-      return { x: cursorX, y: cursorY };
-    });
-
-    function loopCursor() {
-      cursorDrawX += (cursorX - cursorDrawX) * 0.22;
-      cursorDrawY += (cursorY - cursorDrawY) * 0.22;
-      cursor.style.setProperty("--cursor-x", cursorDrawX + "px");
-      cursor.style.setProperty("--cursor-y", cursorDrawY + "px");
-      var prevX = cursorDrawX;
-      var prevY = cursorDrawY;
-      trails.forEach(function (trail, i) {
-        var ease = 0.1 - i * 0.02;
-        trail.x += (prevX - trail.x) * ease;
-        trail.y += (prevY - trail.y) * ease;
-        trailEls[i].style.setProperty("--trail-x", trail.x + "px");
-        trailEls[i].style.setProperty("--trail-y", trail.y + "px");
-        prevX = trail.x;
-        prevY = trail.y;
-      });
-      cursorRaf = window.requestAnimationFrame(loopCursor);
-    }
-
     document.addEventListener("pointermove", function (e) {
       cursorX = e.clientX;
       cursorY = e.clientY;
+      cursor.style.setProperty("--cursor-x", cursorX + "px");
+      cursor.style.setProperty("--cursor-y", cursorY + "px");
       syncCursorTone();
     });
 
@@ -257,8 +232,6 @@
       var hot = e.target.closest("a, button, .btn, .call-fab, .versus-row, .quiz-card, .channel, .slider-btn, .voice, .voice-more-btn, .process-node, .fear-see li, .faq-list summary, .pledge, .trust-cast li");
       cursor.classList.toggle("is-hot", Boolean(hot));
     });
-
-    loopCursor();
   }
 
   var process = document.querySelector(".process");
@@ -270,6 +243,8 @@
     var stageTitle = process.querySelector(".process-stage-title");
     var stageCap = process.querySelector(".process-stage-cap");
     var processTrack = process.querySelector(".process-track");
+    var processPrev = process.querySelector(".process-arrow--prev");
+    var processNext = process.querySelector(".process-arrow--next");
     var processMobile = window.matchMedia("(max-width: 980px)");
     var processImages = {};
     var active = 0;
@@ -343,6 +318,8 @@
       if (stageNum) stageNum.textContent = node.getAttribute("data-num") || "";
       if (stageTitle) stageTitle.textContent = node.getAttribute("data-title") || "";
       if (stageCap) stageCap.textContent = node.getAttribute("data-cap") || "";
+      if (processPrev) processPrev.disabled = active === 0;
+      if (processNext) processNext.disabled = active === nodes.length - 1;
       setProcessPhoto(node.getAttribute("data-image"), node.getAttribute("data-alt") || "", direction);
       if (processTrack && processMobile.matches) {
         var item = node.parentElement;
@@ -380,6 +357,18 @@
       });
     });
 
+    if (processPrev) {
+      processPrev.addEventListener("click", function () {
+        setProcessStep(active - 1);
+      });
+    }
+
+    if (processNext) {
+      processNext.addEventListener("click", function () {
+        setProcessStep(active + 1);
+      });
+    }
+
     process.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown" || e.key === "ArrowRight") {
         e.preventDefault();
@@ -411,6 +400,9 @@
 
     bindProcessSwipe(stage);
     bindProcessSwipe(processTrack);
+
+    if (processPrev) processPrev.disabled = true;
+    if (processNext) processNext.disabled = nodes.length < 2;
 
     if (reduce.matches) {
       setProcessStep(0);
@@ -1153,8 +1145,24 @@
   var callFab = document.querySelector(".call-fab");
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   if (callFab && !reduce.matches && finePointer.matches) {
+    var fabCloseTimer = 0;
+
     function fabBusy() {
       return callFab.matches(":hover") || callFab.matches(":focus-visible") || document.hidden;
+    }
+
+    function openFab() {
+      window.clearTimeout(fabCloseTimer);
+      callFab.classList.add("is-open");
+    }
+
+    function closeFabAfter(delay) {
+      window.clearTimeout(fabCloseTimer);
+      fabCloseTimer = window.setTimeout(function () {
+        if (!callFab.matches(":hover") && !callFab.matches(":focus-visible")) {
+          callFab.classList.remove("is-open");
+        }
+      }, delay);
     }
 
     function hopFab() {
@@ -1172,14 +1180,19 @@
     }
 
     function peekFab() {
-      if (fabBusy()) return;
-      callFab.classList.add("is-open");
-      window.setTimeout(function () {
-        if (!callFab.matches(":hover") && !callFab.matches(":focus-visible")) {
-          callFab.classList.remove("is-open");
-        }
-      }, 4200);
+      if (fabBusy() || callFab.classList.contains("is-open")) return;
+      openFab();
+      closeFabAfter(4200);
     }
+
+    callFab.addEventListener("pointerenter", openFab);
+    callFab.addEventListener("pointerleave", function () {
+      closeFabAfter(10000);
+    });
+    callFab.addEventListener("focusin", openFab);
+    callFab.addEventListener("focusout", function () {
+      closeFabAfter(10000);
+    });
 
     callFab.addEventListener("animationend", function () {
       callFab.classList.remove("is-nudge");
