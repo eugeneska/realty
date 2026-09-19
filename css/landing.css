@@ -1371,6 +1371,7 @@ button:focus-visible {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.quiz-cards--object,
 .quiz-cards--condition {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -5577,8 +5578,13 @@ button:focus-visible {
   .quiz-cards--districts,
   .quiz-cards--rooms,
   .quiz-cards--area,
+  .quiz-cards--object,
   .quiz-cards--condition {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .quiz-cards--object .quiz-card:last-child {
+    grid-column: 1 / -1;
   }
 
   .quiz-fields {

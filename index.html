@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css?v=1.0.2">
-  <link rel="stylesheet" href="css/landing.css?v=1.0.34">
+  <link rel="stylesheet" href="css/landing.css?v=1.0.35">
 </head>
 <body>
   <header class="site-header" id="site-header">
@@ -58,8 +58,8 @@
     <div class="hero-inner">
       <div class="wrap">
         <div class="hero-copy">
-          <h1>Продайте квартиру в Бресте<br><em>на 30% быстрее</em>,<br class="br-mobile"> сохранив максимум<br>от её стоимости</h1>
-          <p class="hero-lead">Берём квартиру в персональную работу и сами ищем покупателя - не ждём звонков по объявлению</p>
+          <h1>Продайте недвижимость в Бресте<br><em>на 30% быстрее</em>,<br class="br-mobile"> сохранив максимум<br>от её стоимости</h1>
+          <p class="hero-lead">Берём объект или недвижимость в персональную работу и сами ищем покупателя - не ждём звонков по объявлению</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#quiz">Узнать стоимость и срок продажи</a>
             <a class="btn btn-ghost" href="#form">Получить −10% на услуги</a>
@@ -77,7 +77,7 @@
           <div class="stat"><b><i data-count="30">30</i>%</b><span>быстрее обычного договора</span></div>
           <div class="stat"><b>0 BYN</b><span>до завершения сделки</span></div>
           <div class="stat"><b><i data-count="20">20</i> лет</b><span>опыта в недвижимости</span></div>
-          <div class="stat"><b>−10%</b><span>на услуги, если квартира продана в первый месяц</span></div>
+          <div class="stat"><b>−10%</b><span>на услуги, если недвижимость продана в первый месяц</span></div>
         </div>
       </div>
     </div>
@@ -155,7 +155,7 @@
           <header class="why-head" data-reveal>
             <p class="kicker">Почему эксклюзив</p>
             <h2>Пять риэлтеров не означают<br>в пять раз больше шансов продать</h2>
-            <p class="why-lead">Когда одну квартиру продают сразу несколько агентств, никто не уверен, что именно он завершит сделку, поэтому ответственность и вложения в объект размываются</p>
+            <p class="why-lead">Когда один объект продают сразу несколько агентств, никто не уверен, что именно он завершит сделку, поэтому ответственность и вложения в объект размываются</p>
           </header>
 
           <div class="versus" data-reveal>
@@ -190,7 +190,7 @@
           <div class="pledge" id="discount" data-reveal>
             <h3>Эксклюзив работает<br>в обе стороны</h3>
             <p>Вы доверяете РИАЛИТИ продажу квартиры на период договора, а РИАЛИТИ берёт на себя персональную ответственность за её продвижение</p>
-            <p class="pledge-offer">Если квартира продаётся уже в первый месяц - вы получаете скидку 10% на услуги агентства</p>
+            <p class="pledge-offer">Если объект продаётся уже в первый месяц - вы получаете скидку 10% на услуги агентства</p>
           </div>
         </aside>
       </div>
@@ -207,17 +207,18 @@
     <div class="wrap">
       <header class="quiz-head" data-reveal>
         <p class="kicker"><span>Расчёт стоимости<br class="br-mobile"> и срока продажи</span></p>
-        <h2>Узнайте стоимость квартиры<br>и реальный срок её продажи</h2>
+        <h2>Узнайте стоимость недвижимости<br>и реальный срок её продажи</h2>
         <p class="quiz-note">Неправильная стартовая цена может затянуть продажу и усилить торг покупателей</p>
       </header>
 
       <div class="quiz-board" data-quiz data-reveal>
         <div class="quiz-progress">
-          <span id="quiz-step-label" aria-live="polite">Шаг 1 из 5</span>
+          <span id="quiz-step-label" aria-live="polite">Шаг 1 из 6</span>
           <div class="quiz-rail" aria-hidden="true">
             <i class="quiz-rail-fill"></i>
             <ol class="quiz-dots">
               <li class="is-on"></li>
+              <li></li>
               <li></li>
               <li></li>
               <li></li>
@@ -229,6 +230,7 @@
         <form id="quiz-form" action="send.php" method="post">
           <input type="hidden" name="type" value="quiz">
           <input class="form-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="object" id="q-object">
           <input type="hidden" name="district" id="q-district">
           <input type="hidden" name="rooms" id="q-rooms">
           <input type="hidden" name="area" id="q-area">
@@ -236,9 +238,18 @@
           <input type="hidden" name="when" id="q-when">
 
           <div class="quiz-step is-on" data-step="1">
+            <h3>Что продаёте?</h3>
+            <div class="quiz-cards quiz-cards--object">
+              <button type="button" class="quiz-card" data-field="q-object" data-value="Квартира">Квартира</button>
+              <button type="button" class="quiz-card" data-field="q-object" data-value="Дом, участок">Дом, участок</button>
+              <button type="button" class="quiz-card" data-field="q-object" data-value="Коммерческая">Коммерческая</button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="2">
             <div class="quiz-district">
               <div class="quiz-district-main">
-                <h3>В каком районе квартира?</h3>
+                <h3>В каком районе объект?</h3>
                 <p class="quiz-hint">Наведите на район на карте или выберите из списка</p>
                 <div class="quiz-cards quiz-cards--districts" role="radiogroup" aria-label="Район квартиры">
                   <button type="button" class="quiz-card quiz-card--pin" role="radio" aria-checked="false" data-field="q-district" data-value="Центр"><i class="quiz-pin" aria-hidden="true"></i><span>Центр</span></button>
@@ -262,7 +273,7 @@
             </div>
           </div>
 
-          <div class="quiz-step" data-step="2">
+          <div class="quiz-step" data-step="3">
             <h3>Сколько комнат?</h3>
             <div class="quiz-cards quiz-cards--rooms">
               <button type="button" class="quiz-card quiz-card--figure" data-field="q-rooms" data-value="1"><b>1</b></button>
@@ -272,7 +283,7 @@
             </div>
           </div>
 
-          <div class="quiz-step" data-step="3">
+          <div class="quiz-step" data-step="4">
             <h3>Какая площадь?</h3>
             <div class="quiz-cards quiz-cards--area">
               <button type="button" class="quiz-card quiz-card--figure" data-field="q-area" data-value="до 50"><b>до 50</b><span>м²</span></button>
@@ -282,7 +293,7 @@
             </div>
           </div>
 
-          <div class="quiz-step" data-step="4">
+          <div class="quiz-step" data-step="5">
             <h3>Какое состояние?</h3>
             <div class="quiz-cards quiz-cards--condition">
               <button type="button" class="quiz-card" data-field="q-condition" data-value="ремонт">Требует ремонта</button>
@@ -291,7 +302,7 @@
             </div>
           </div>
 
-          <div class="quiz-step" data-step="5">
+          <div class="quiz-step" data-step="6">
             <h3>Когда хотите продать?</h3>
             <div class="quiz-cards quiz-cards--when">
               <button type="button" class="quiz-card" data-field="q-when" data-value="срочно">Как можно скорее</button>
@@ -301,7 +312,7 @@
             </div>
           </div>
 
-          <div class="quiz-step" data-step="6">
+          <div class="quiz-step" data-step="7">
             <h3 id="quiz-result-title">Куда отправить расчёт?</h3>
             <p class="quiz-result-text" id="quiz-result-text">Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи</p>
             <div class="quiz-fields">
@@ -359,14 +370,14 @@
             <i class="channel-gem" aria-hidden="true"></i>
             <div class="channel-copy">
               <b>Realt</b>
-              <p>Продвигаем объект там,<br>где ищут жильё</p>
+              <p>Продвигаем объект там,<br>где ищут недвижимость</p>
             </div>
           </article>
           <article class="channel channel--2">
             <i class="channel-gem" aria-hidden="true"></i>
             <div class="channel-copy">
               <b>Kufar</b>
-              <p>Показываем квартиру<br>людям в поиске</p>
+              <p>Показываем объект<br>людям в поиске</p>
             </div>
           </article>
           <article class="channel channel--3">
@@ -394,7 +405,7 @@
             <i class="channel-gem" aria-hidden="true"></i>
             <div class="channel-copy">
               <b>База РИАЛИТИ</b>
-              <p>Предлагаем квартиру тем,<br>кто уже ищет с нами</p>
+              <p>Предлагаем объект тем,<br>кто уже ищет с нами</p>
             </div>
           </article>
         </div>
@@ -700,7 +711,7 @@
       <div class="trust-top" data-reveal data-scene>
         <header class="trust-head">
           <p class="kicker kicker--on-light">Доверие и безопасность</p>
-          <h2 data-split="words">За продажей вашей квартиры стоят реальные люди</h2>
+          <h2 data-split="words">За продажей вашей недвижимости стоят реальные люди</h2>
           <p class="trust-lead">Вы доверяете нам один из самых дорогих своих активов, поэтому доверие подтверждаем фактами</p>
         </header>
 
@@ -1164,7 +1175,7 @@
     </span>
   </a>
 
-  <script src="js/landing.js?v=1.0.13"></script>
+  <script src="js/landing.js?v=1.0.14"></script>
   <script type="module" src="js/manage-growth-chart.js?v=1.0.7"></script>
 </body>
 </html>

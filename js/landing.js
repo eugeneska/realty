@@ -557,23 +557,23 @@
       current = n;
       var board = form.closest(".quiz-board");
       if (board) {
-        board.style.setProperty("--quiz-p", n >= 6 ? "1" : ((n - 1) / 4).toFixed(3));
+        board.style.setProperty("--quiz-p", n >= 7 ? "1" : ((n - 1) / 5).toFixed(3));
       }
       steps.forEach(function (step) {
         step.classList.toggle("is-on", step.getAttribute("data-step") === String(n));
       });
-      if (n < 6) {
-        label.textContent = "Шаг " + n + " из 5";
+      if (n < 7) {
+        label.textContent = "Шаг " + n + " из 6";
       } else {
         label.textContent = "Ваш результат";
       }
       dots.forEach(function (dot, i) {
         var stepNum = i + 1;
-        dot.classList.toggle("is-on", n < 6 ? stepNum === n : false);
-        dot.classList.toggle("is-done", n === 6 || stepNum < n);
+        dot.classList.toggle("is-on", n < 7 ? stepNum === n : false);
+        dot.classList.toggle("is-done", n === 7 || stepNum < n);
       });
       if (back) back.hidden = n === 1;
-      if (n === 1 && yandexMap) {
+      if (n === 2 && yandexMap) {
         window.setTimeout(fitDistricts, 60);
       }
     }
@@ -623,7 +623,7 @@
       if (btn.getAttribute("data-review") === "1") {
         resultTitle.textContent = "Разберём, почему квартира не продаётся";
         resultText.textContent = "Риэлтер покажет, что изменить в цене, подаче или продвижении, и даст предварительную оценку";
-      } else if (btn.closest('[data-step="5"]')) {
+      } else if (btn.closest('[data-step="6"]')) {
         resultTitle.textContent = "Куда отправить расчёт?";
         resultText.textContent = "Результат: предварительный диапазон стоимости + рекомендуемая стратегия продажи";
       }

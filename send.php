@@ -85,6 +85,7 @@ if ($type === 'checklist') {
 
 if ($type === 'quiz') {
     $fields += [
+        'Объект' => clean($payload['object'] ?? '', 100),
         'Район' => clean($payload['district'] ?? '', 100),
         'Комнат' => clean($payload['rooms'] ?? '', 30),
         'Площадь' => clean($payload['area'] ?? '', 30),
